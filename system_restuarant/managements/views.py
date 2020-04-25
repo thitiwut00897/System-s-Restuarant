@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.contrib.auth import authenticate, login, logout
 from classes.models import Restaurant, Account, Owner, Type, Food
 from managements.forms import AddRestaurantForm, AddFoodForm, EditRestaurantForm
 
@@ -9,6 +10,29 @@ def home(request):
 
 def management(request):
     return render(request, template_name='managementRestaurant.html')
+
+def my_login(request):
+    context = {}
+    if request.method == 'POST':
+        
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+        if user:
+            login(request, user)
+            return redirect('homepage')
+        
+        else:
+            context['username'] = username
+            context['password'] = password
+            context['error'] = 'Wrong username or password!'
+    
+    return render(request, template_name='login.html', context=context)
+
+def my_logout(request):
+    logout(request)
+    return redirect('login')
 
     
 def addRestaurant(request):

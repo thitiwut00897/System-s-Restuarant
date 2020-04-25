@@ -5,6 +5,9 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('login',views.my_login,name='login'),
+
+    # menagement Restuarant&Menu
     path('restaurant', views.management, name='management'),
     path('restaurant/add/', views.addRestaurant, name='addRestaurant'),
     path('restaurant/food/add/<int:id>/', views.addFood, name='addFood'),
