@@ -4,6 +4,9 @@ from django.shortcuts import redirect, render
 from classes.models import Restaurant, Account, Owner, Type, Food
 from managements.forms import AddRestaurantForm, AddFoodForm, EditRestaurantForm
 
+def home(request):
+    return render(request, template_name='base.html')
+
 def management(request):
     return render(request, template_name='managementRestaurant.html')
 
