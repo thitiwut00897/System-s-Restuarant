@@ -5,8 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from classes.models import Account, Food, Owner, Restaurant, Type
-from managements.forms import (AddFoodForm, AddRestaurantForm,
-                               EditRestaurantForm)
+from managements.forms import AddFoodForm, AddRestaurantForm,EditRestaurantForm
 
 
 def home(request):
@@ -36,9 +35,9 @@ def my_login(request):
 
 def my_logout(request):
     logout(request)
-    return redirect('login')
+    return redirect(to='login')
 
-    
+
 def addRestaurant(request):
     restaurant = Restaurant.objects.all()    
     if request.method == 'POST':
@@ -58,6 +57,8 @@ def addRestaurant(request):
     })
 
 
+
+
 # def editRestaurant(request, id):
 #     restaurant = Restaurant.objects.get(restaurant_id=id)
 #     print(restaurant)
@@ -72,11 +73,13 @@ def addRestaurant(request):
 #             return redirect('editRestaurant')       
 #     else:        
 #         form = EditRestaurantForm()    
-
 #     return render(request, 'editRestaurant.html', context={        
 #         'form' : form,
 #         'restaurant': restaurant
 #     })
+
+
+
 
 def deleteRestaurant(request, id):
     restaurant = Restaurant.objects.get(restaurant_id=id)
@@ -84,15 +87,19 @@ def deleteRestaurant(request, id):
     return redirect(to='addRestaurant')
 
 
+
+
 def addFood(request, id):
     fd = Food.objects.filter(restaurant_restaurant_id_id = id)  
+    # print(fd)
     if request.method == 'POST':
-        # food = Food.objects.get(pk = id)
-        # print(food)
         form = AddFoodForm(request.POST, request.FILES)  
         if form.is_valid():       
-            Food.objects.create(food_name = request.POST.get('food_name'), picture = request.POST.get('picture'), price = request.POST.get('price'), restaurant_restaurant_id_id = id ) 
-            food = form.save(commit=False)     
+            # Food.objects.create(food_name = request.POST.get('food_name'), picture = request.POST.get('picture'), price = request.POST.get('price'), restaurant_restaurant_id_id = id ) 
+            food = form.save(commit=False)
+            food.restaurant_restaurant_id_id = id
+            food.save()
+            # print(food.picture)
             return redirect('addFood', id=id)       
     else:        
         form = AddFoodForm()       
@@ -104,41 +111,39 @@ def addFood(request, id):
     })
 
 
-# def editMenu(request):
+
+
+# def editFood(request):
 #     try:
 #         food = Food.objects.get(pk=food_id)
-
 #     except Food.DoesNotExist:
-#         return redirect('MenuList')
-
+#         return redirect('addFood')
 #     if request.method == 'POST':
 #         food.food_name=request.POST.get('food_name')
 #         food.picture=request.POST.get('picture')
 #         food.price=request.POST.get('price')
-
 #         food.save()
-    
 #     context = {
 #         'food_name': Food.food_name,
 #         'picture': Food.picture,
 #         'price': Food.price
 #     }
+#     return render(request, 'editFood.html', context=context)
 
-#     return render(request, 'editMenu.html', context=context)
 
 
-def deleteFood(request, id):
-    food = Food.objects.get(food_id=id)
+
+
+def deleteFood(request, res_id, food_id):
+    food = Food.objects.get(food_id=food_id)
     food.delete()
-    return redirect(to='addFood')
+    return redirect(to='addFood', id=res_id)
+
 
 def searchRestaurant(request):
     search = request.GET.get('inputSearch', '')
-    filter = classes.object.filter(
-        name__icontain = search
-    )
+    filter = classes.object.filter(name__icontain = search)
     return render(request, template_name='base.html',
                   context={
                       'search': search,
-                      'filter': filter}
-                  )
+                      'filter': filter})

@@ -1,51 +1,51 @@
 {% extends "base.html" %}
 {% block content %}
-    <form method="POST" action="{% url 'addFood' id=id %}" class="mr" >
+    <form method="POST" action="{% url 'addFood' id=id %}" class="mr" enctype="multipart/form-data" >
      {% csrf_token %}
-     <h2>Add Food</h2><br>
+     <h2>เพิ่มรายการอาหาร</h2><br>
      {{ form.non_field_errors }}
-        <div class="form-row">
-            <div class="form-group col-md-6">
+        <div class="form-group">
             {{ form.food_name.errors }}
             <label for=" {{form.food_name.id_for_label}} ">{{ form.food_name.label }}</label>
             {{ form.food_name }}
-            </div>
+        </div>
 
-            <div class="form-group col-md-6">
+        <div class="form-group ">
             {{ form.price.errors }}
             <label for=" {{form.price.id_for_label}} ">{{ form.price.label }}</label>
             {{ form.price}}
-            </div>
         </div>
+        <label for="inputType">รูปอาหาร</label>
         <div class="input-group">
-        {{ form.picture.errors }}
+            {{ form.picture.errors }}
             <div class="input-group-prepend">
                 <span class="input-group-text" >Upload Picture</span>
             </div>
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" aria-describedby="inputGroupFileAddon01">
+            <div class="custom">
                 <label class="custom-file-label" for="{{form.picture.id_for_label}}">Choose file</label>
-            </div>
+            </div> 
             {{ form.picture}}
-        </div><br><button type="submit" class="btn btn-primary">Save</button><br><br><br>
+        </div>
+
+        </div><br><button type="submit" class="btn btn-primary">บันทึก</button><br><br><br>
         <table class="table">
             <thead>
                 <tr>
-                <th scope="col">Food picture</th>
-                <th scope="col">Food Name</th>
+                <th scope="col">รูปอาหาร</th>
+                <th scope="col">ชื่ออาหาร</th>
                 <th scope="col">Price</th>
-                <th scope="col"><center>mangement Food</center></th>
+                <th scope="col"><center>จัดการรายการอาหาร</center></th>
                 </tr>
             </thead>
             <tbody>
             {% for i in food %}
                 <tr>
-                    <td> <img src="{{ i.picture}}"></td>
+                    <td> {% if i.picture %}<img src="{{ i.picture.url }}">{% endif %}</td>
                     <td> {{ i.food_name }} </td>
                     <td> {{ i.price }} </td>
                     <td><center>
-                        <a type="button" class="btn btn-warning" href="#">Edit Food</a>
-                        <a type="button" class="btn btn-danger" href="{% url 'deleteFood' id=i.food_id %}">Delete Food</a></center>
+                        <a type="button" class="btn btn-warning" href="#">แก้ไขร้านอาหาร</a>
+                        <a type="button" class="btn btn-danger" href="{% url 'deleteFood' res_id=id food_id=i.food_id %}">ลบร้านอาหาร</a></center>
                     </td> 
                 </tr>
             {% endfor %}
@@ -53,4 +53,6 @@
             </table>
         </form>
     </div>
+    
+               
 {% endblock %}
