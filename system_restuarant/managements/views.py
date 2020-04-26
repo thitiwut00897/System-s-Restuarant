@@ -1,9 +1,13 @@
-from django.shortcuts import render
+from builtins import object
+
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.contrib.auth import authenticate, login, logout
-from classes.models import Restaurant, Account, Owner, Type, Food
-from managements.forms import AddRestaurantForm, AddFoodForm, EditRestaurantForm
+
+from classes.models import Account, Food, Owner, Restaurant, Type
+from managements.forms import (AddFoodForm, AddRestaurantForm,
+                               EditRestaurantForm)
+
 
 def home(request):
     return render(request, template_name='base.html')
@@ -127,3 +131,14 @@ def deleteFood(request, id):
     food = Food.objects.get(food_id=id)
     food.delete()
     return redirect(to='addFood')
+
+def searchRestaurant(request):
+    search = request.GET.get('inputSearch', '')
+    filter = classes.object.filter(
+        name__icontain = search
+    )
+    return render(request, template_name='base.html',
+                  context={
+                      'search': search,
+                      'filter': filter}
+                  )
