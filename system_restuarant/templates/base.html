@@ -10,7 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <style>
-    .fr{
+    .fr, .mr{
         margin-left: 100px;
         margin-right: 100px;
         margin-top: 50px;
@@ -44,19 +44,19 @@
           <a class="navbar-brand" href="#">KMITL Restaurent</a>
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'home' %}">Home</a>
+              <a class="nav-link" href="">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Management</a>
+              <a class="nav-link" href="{% url 'addRestaurant' %}">Management</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'home' %}">Logout</a>
+              <a class="nav-link" href="">Logout</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Admin</a>
             </li>
           </ul>
-          <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'home' %}">
+          <form class="form-inline my-2 my-lg-0" method="GET" action="">
             <input class="form-control mr-sm-2" type="text" placeholder="Search" id="inputSearch" name="inputSearch" value={{search}}>
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
           </form>
@@ -68,19 +68,16 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-          <a class="navbar-brand" href="#">KMITL Restaurant</a>
+          <a class="navbar-brand" href="{% url 'home' %}">KMITL Restaurant</a>
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'home' %}">Home</a>
+              <a class="nav-link" href="{% url 'management' %}">Management</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Management</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Login</a>
+              <a class="nav-link" href="{% url 'login' %}">Login</a>
             </li>
           </ul>
-          <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'home' %}">
+          <form class="form-inline my-2 my-lg-0" method="GET" action="#">
             <input class="form-control mr-sm-2" type="text" placeholder="Search" id="inputSearch" name="inputSearch" value={{search}}>
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
           </form>

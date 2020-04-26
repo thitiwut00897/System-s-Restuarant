@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+    {% comment %} {{ form.as_table }} {% endcomment %}
+     <form method="POST" action="{% url 'editRestaurant' %}" enctype="multipart/form-data" >
+     {% csrf_token %}
+
+     {{ form.non_field_errors }}
+
+        <h4> Restaurant</h4><br>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                {{ form.restaurant_name.errors }}
+                <label for=" {{form.restaurant_name.id_for_label}} ">{{ form.restaurant_name.label }}</label>
+                {{ form.restaurant_name }}
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputType">ประเภทร้านอาหาร</label>
+                <input type="text" class="form-control" name="type_name" id="inputType">
+                </div>
+            <div class="form-group col-md-2">
+                {{ form.working_hours.errors }}
+                <label for=" {{form.id_for_label}} ">{{ form.working_hours.label }}</label>
+                {{ form.working_hours }}
+            </div>
+        </div>
+        <div class="input-group">
+            {{ form.picture_restaurant.errors }}
+            <div class="input-group-prepend">
+                <span class="input-group-text" >Upload Picture</span>
+            </div>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" aria-describedby="inputGroupFileAddon01">
+                <label class="custom-file-label" for="{{form.picture_restaurant.id_for_label}}">Choose file</label>
+            </div> 
+            {{ form.picture_restaurant}}
+        </div>
+        </div><br>
+       <button type="submit" class="btn btn-primary" >Save</button>
+        </form>
+    </div>
+
+{% endblock %}
