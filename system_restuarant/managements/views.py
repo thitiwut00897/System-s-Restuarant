@@ -14,6 +14,9 @@ def home(request):
 def management(request):
     return render(request, template_name='managementRestaurant.html')
 
+def homepage(request):
+    return render(request, template_name='homepage.html')
+
 def my_login(request):
     context = {}
     if request.method == 'POST':
@@ -147,3 +150,4 @@ def searchRestaurant(request):
                   context={
                       'search': search,
                       'filter': filter})
+                      
