@@ -44,13 +44,13 @@
           <a class="navbar-brand" href="#">KMITL Restaurent</a>
           <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <li class="nav-item">
-              <a class="nav-link" href="">Home</a>
+              <a class="nav-link" href="{% url 'home' %}">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'addRestaurant' %}">Management</a>
+              <a class="nav-link" href="{% url 'management' %}">Management</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="">Logout</a>
+              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Admin</a>
