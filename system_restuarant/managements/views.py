@@ -76,25 +76,21 @@ def addRestaurant(request):
         'restaurant': restaurant
     })
 
-
-# def editRestaurant(request, id):
-#     restaurant = Restaurant.objects.get(restaurant_id=id)
-#     print(restaurant)
-#     if request.method == 'POST':
-#         form = EditRestaurantForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             typeRestaurant = Type.objects.get(type_name = request.POST.get('type_name'))
-#             restaurant = form.save(commit=False)
-#             restaurant.type_type_id = typeRestaurant
-#             print(restaurant.picture_restaurant)
-#             restaurant.save()
-#             return redirect('editRestaurant')
-#     else:
-#         form = EditRestaurantForm()
-#     return render(request, 'editRestaurant.html', context={
-#         'form' : form,
-#         'restaurant': restaurant
-#     })
+def editRestaurant(request, id):
+    restaurant = Restaurant.objects.get(restaurant_id=id)
+    # success = ''
+    if request.method == 'POST':
+        form = EditRestaurantForm(request.POST, instance=restaurant)
+        if form.is_valid():
+            form.save()
+    else:
+        form = EditRestaurantForm(instance=restaurant)
+    
+    return render(request, 'editRestaurant.html', context={
+        'form': form, 
+        'restaurant': restaurant,
+        # 'success': success
+    })
 
 
 def deleteRestaurant(request, id):

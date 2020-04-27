@@ -21,7 +21,11 @@ class AddRestaurantForm(ModelForm):
             'open_time': forms.TextInput(attrs={'class':'form-control'}),
             'close_time': forms.TextInput(attrs={'class':'form-control'})
         }
-
+        def clean(self):
+            cleaned_data = super().clean()
+            if( price.isdigit() == false):
+                msg = "กรุณากรอกตัวเลข"
+                self.add_error('price', msg)                
 class EditRestaurantForm(ModelForm):
     class Meta:
         model = Restaurant
@@ -51,3 +55,9 @@ class AddFoodForm(ModelForm):
             'food_name': forms.TextInput(attrs={'class':'form-control'}),
             'price': forms.TextInput(attrs={'class':'form-control'})
         }
+        # def clean(self):
+        #     cleaned_data = super().clean()
+        #     price = cleaned_data.get('price')
+        #     if(price.isdigit() == false):
+        #         msg = "กรุณากรอกตัวเลข"
+        #         self.add_error('price', msg)                
