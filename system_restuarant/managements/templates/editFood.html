@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    <form method="POST" action="{% url 'editFood' res_id=id food_id=id1 %}" class="mr" enctype="multipart/form-data" >
+    <form method="POST" action="{% url 'editFood' res_id=id1 food_id=id %}" class="mr" enctype="multipart/form-data" >
      {% csrf_token %}
      <h2>แก้ไขรายการอาหาร</h2><br>
      {{ form.non_field_errors }}
@@ -15,21 +15,18 @@
             {{ form.price}}
             {{ form.price.errors }}
         </div>
+
         <label for="inputType">รูปอาหาร</label>
         <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text" >Upload Picture</span>
             </div>
-            <div class="custom">
+            <div class="custom-file">
+                {{ form.picture}}  
                 <label class="custom-file-label" for="{{form.picture.id_for_label}}">Choose file</label>
+                {{ form.picture.errors}}  
             </div> 
-            {{ form.picture}}
-            
         </div>
-
-        </div><br><button type="submit" class="btn btn-primary">บันทึก</button>
-        </form>
-    </div>
-    
-               
+        <br><button type="submit" class="btn btn-primary">บันทึก</button>
+        </form>             
 {% endblock %}

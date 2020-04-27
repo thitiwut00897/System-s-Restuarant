@@ -9,7 +9,6 @@
             {{ form.food_name }}
             {{ form.food_name.errors }}
         </div>
-
         <div class="form-group ">
             <label for=" {{form.price.id_for_label}} ">{{ form.price.label }}</label>
             {{ form.price}}
@@ -20,14 +19,13 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" >Upload Picture</span>
             </div>
-            <div class="custom">
+            <div class="custom-file">
+                {{ form.picture}}
                 <label class="custom-file-label" for="{{form.picture.id_for_label}}">Choose file</label>
             </div> 
-            {{ form.picture}}
-            
+            {{ form.picture.errors }}
         </div>
-
-        </div><br><button type="submit" class="btn btn-primary">บันทึก</button><br><br><br>
+        <br><button type="submit" class="btn btn-primary">บันทึก</button><br><br><br>
         <table class="table">
             <thead>
                 <tr>
@@ -51,8 +49,5 @@
             {% endfor %}
             </tbody>
             </table>
-        </form>
-    </div>
-    
-               
+        </form> 
 {% endblock %}

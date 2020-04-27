@@ -28,10 +28,10 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" >Upload Picture</span>
                 </div>
-                <div class="custom">
+                <div class="custom-file">
+                    {{ form.picture_restaurant}}
                     <label class="custom-file-label" for="{{form.picture_restaurant.id_for_label}}">Choose file</label>
                 </div> 
-                {{ form.picture_restaurant}}
                 {{ form.picture_restaurant.errors}}
             </div><br>
        <button type="submit" class="btn btn-primary">บันทึก</button><br><br><br>
