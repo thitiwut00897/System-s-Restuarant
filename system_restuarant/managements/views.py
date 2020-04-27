@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from classes.models import Account, Food, Owner, Restaurant, Type
+from classes.models import Food, Owner, Restaurant, Type
 from managements.forms import AddFoodForm, AddRestaurantForm,EditRestaurantForm
 
 
