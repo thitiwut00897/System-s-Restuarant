@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class='container'>
+        <h1>จัดการสถานะออเดอร์</h1>
+        <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">ลำดับที่</th>
+            <th scope="col">รหัสออเดอร์</th>
+            <th scope="col">วัน/เวลาที่สั่ง</th>
+            <th scope="col">จัดการออเดอร์</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr data-toggle="collapse" href="#demo{{order.id}}">
+                    <th scope="row">{{order.id}}</th>
+                    <td>{{order.id_2}}</td>
+                    <td>{{ order.time}}</td>
+                    <td><Button type="button" class="btn btn-info" onclick=''>คลิ๊กแสดงรายละเอียด</button></td>
+                </tr>
+                <tr >
+                    <td colspan="6"><div class="accordian-body collapse" id="demo{{order.id}}"> อาหาร: {{order.food}} จำนวน: {{order.unit}} ราคา {{order.price}}</div> </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+{% endblock content %}
