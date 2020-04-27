@@ -155,7 +155,8 @@ def manageOrder(request):
     for od in order:
         dict = {
             'id': od.order_id,
-            'time': od.date_time    
+            'time': od.date_time,
+            'total_price' : od.total_price
             }
         list.append(dict)
 

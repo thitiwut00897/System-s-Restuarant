@@ -22,12 +22,17 @@
                 {% for food in foods %}
                     {% if order.id == food.id %}
                         <tr >
-                            <td colspan="6"><div class="accordian-body collapse" id="demo{{order.id}}"> อาหาร: {{food.food}} จำนวน: {{food.unit}} ราคา {{food.price}}</div> </td>
+                            <td colspan="4"><div class="accordian-body collapse" id="demo{{order.id}}"> อาหาร: {{food.food}} จำนวน: {{food.unit}} ราคา {{food.price}}</div> </td>
                         </tr>
+                        
                     {% endif %}
                 {% endfor %}
+                <tr >
+                     <td colspan="4"><div class="accordian-body collapse" id="demo{{order.id}}"> ราคารวม: {{order.total_price}}</div> </td>
+                </tr>
             {% endfor %}
         </tbody>
         </table>
     </div>
+    
 {% endblock content %}
