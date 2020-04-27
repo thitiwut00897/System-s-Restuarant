@@ -13,11 +13,11 @@
         </thead>
         <tbody>
             {% for order in orders %}
-                <tr data-toggle="collapse" href="#demo{{order.id}}">
+                <tr>
                     <th scope="row">{{order.id}}</th>
                     <td>{{order.id}}</td>
                     <td>{{ order.time}}</td>
-                    <td><Button type="button" class="btn btn-info" onclick=''>คลิ๊กแสดงรายละเอียด</button></td>
+                    <td><Button type="button" data-toggle="collapse" href="#demo{{order.id}}" class="btn btn-info" onclick=''>คลิ๊กแสดงรายละเอียด</button></td>
                 </tr>
                 {% for food in foods %}
                     {% if order.id == food.id %}
