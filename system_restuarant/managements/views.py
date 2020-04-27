@@ -47,7 +47,7 @@ def my_login(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            return redirect('homepage')
+            return redirect('home')
 
         else:
             context['username'] = username
@@ -186,10 +186,14 @@ def cancelOrder(request, order_id):
     order.delete()
     return redirect(to='manageOrder')
 
-# def searchRestaurant(request):
-#     search = request.GET.get('inputSearch', '')
-#     filter = Restaurant.object.filter(name__icontain=search)
-#     return render(request, template_name='base.html',
-#                   context={
-#                       'search': search,
-#                       'filter': filter})
+
+def searchRestaurant(request):
+    search = request.GET.get('search', '')
+    restaurant = Restaurant.objects.all()
+    findres = Food.objects.filter(
+        name__icontain=search
+    )
+    return render(request, '.html', context={
+        'search': search,
+        'restaurant': restaurant,
+        'findres': findres})
