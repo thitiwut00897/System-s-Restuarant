@@ -38,7 +38,7 @@ class EditRestaurantForm(ModelForm):
         }
         widgets = {
             'restaurant_name': forms.TextInput(attrs={'class':'form-control'}),
-            'working_hours': forms.TextInput(attrs={'class':'form-control'}),
+            'open_time': forms.TextInput(attrs={'class':'form-control'}),
             'close_time': forms.TextInput(attrs={'class':'form-control'})
         }
 
