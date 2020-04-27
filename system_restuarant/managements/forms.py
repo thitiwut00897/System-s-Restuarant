@@ -9,37 +9,34 @@ from classes.models import Restaurant, Food
 class AddRestaurantForm(ModelForm):
     class Meta:
         model = Restaurant
-        fields = ['restaurant_name','picture_restaurant', 'open_time','close_time']
+        fields = ['restaurant_name','picture_restaurant', 'working_hours']
         labels = {
             'restaurant_name': 'ชื่อร้านอาหาร',
-            'open_time': 'เวลาเปิดร้าน',
-            'close_time': 'เวลาเปิดร้าน',
+            'working_hours': 'เวลาเปิดร้าน',
             'picture_restaurant': 'รูปภาพร้านอาหาร'
         }
         widgets = {
             'restaurant_name': forms.TextInput(attrs={'class':'form-control'}),
-            'open_time': forms.TextInput(attrs={'class':'form-control'}),
-            'close_time': forms.TextInput(attrs={'class':'form-control'})
+            'working_hours': forms.TextInput(attrs={'class':'form-control'})
         }
         def clean(self):
             cleaned_data = super().clean()
             if( price.isdigit() == false):
                 msg = "กรุณากรอกตัวเลข"
-                self.add_error('price', msg)                
+                self.add_error('price', msg)   
+                             
 class EditRestaurantForm(ModelForm):
     class Meta:
         model = Restaurant
-        fields = ['restaurant_name','picture_restaurant', 'open_time','close_time']
+        fields = ['restaurant_name','picture_restaurant', 'working_hours']
         label = {
             'restaurant_name': 'ชื่อร้านอาหาร',
-            'open_time': 'เวลาเปิดร้าน',
-            'close_time': 'เวลาเปิดร้าน',
+            'working_hours': 'เวลาเปิด/ปิดร้าน',
             'picture_restaurant': 'รูปภาพร้านอาหาร'
         }
         widgets = {
             'restaurant_name': forms.TextInput(attrs={'class':'form-control'}),
-            'open_time': forms.TextInput(attrs={'class':'form-control'}),
-            'close_time': forms.TextInput(attrs={'class':'form-control'})
+            'working_hours': forms.TextInput(attrs={'class':'form-control'})
         }
 
 class AddFoodForm(ModelForm):
