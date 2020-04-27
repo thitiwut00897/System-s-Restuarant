@@ -5,9 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from classes.models import Account, Food, Owner, Restaurant, Type
-from managements.forms import (AddFoodForm, AddRestaurantForm,
-                               EditRestaurantForm)
+from classes.models import Food, Owner, Restaurant, Type,Order
+from managements.forms import AddFoodForm, AddRestaurantForm,EditRestaurantForm
 
 
 def home(request):
@@ -146,7 +145,20 @@ def addFood(request, id):
 #     }
 #     return render(request, 'editFood.html', context=context)
 
+def manageOrder(request):
+    order = Order.objects.all() 
+    list=[]
+    for od in order:
+        dict = {
+            'id':od.order_id,
+            'id_2':od.order_id,
+            'time':od.date_time
+        }
+        list.append(dict)
 
+    return render(request, 'manageOrder.html',context={
+        'orders': list
+    })
 
 
 

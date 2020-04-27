@@ -1,21 +1,15 @@
 from django.db import models
 from enum import Enum
+from django.contrib.auth.models import User
 # Create your models here.
 
-class Account(models.Model):
-    account_id = models.AutoField(primary_key=True)
-    username = models.CharField(max_length=50, null=True, blank=True, unique=True)
-    password = models.CharField(max_length=50, null=True, blank=True)
-    first_name = models.CharField(max_length=50, null=True, blank=True)
-    last_name = models.CharField(max_length=50, null=True, blank=True)
-
 class Customer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     faculty = models.CharField(max_length=50, null=True, blank=True)
-    account_account_id = models.OneToOneField(Account,on_delete=models.CASCADE, primary_key=True)
 
 class Owner(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     picture_owner = models.ImageField(upload_to='uploads', null=True, blank=True)
-    account_account_id = models.OneToOneField(Account,on_delete=models.CASCADE, primary_key=True)
 
 class StateChoices(Enum):
     QUEUING = "Queuing"
@@ -35,7 +29,8 @@ class Type(models.Model):
     
 class Restaurant(models.Model):
     restaurant_id = models.AutoField(primary_key=True)
-    working_hours = models.TimeField(blank=True, null=True)
+    open_time = models.TimeField(blank=True, null=True)
+    close_time = models.TimeField(blank=True, null=True)
     picture_restaurant = models.ImageField(upload_to='uploads', null=True, blank=True)
     restaurant_name = models.CharField(max_length=50, null=True, blank=True)
     owner_account_account_id = models.ForeignKey(Owner, on_delete=models.CASCADE, null=True, blank=True)
