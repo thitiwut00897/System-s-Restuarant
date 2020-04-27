@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    <form method="POST" action="{% url 'addRestaurant' id=id %}" class="fr" enctype="multipart/form-data">
+    <form method="POST" action="{% url 'addRestaurant' %}" class="fr" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.non_field_errors }}
         <h2>เพิ่มร้านอาหาร</h2><br>
