@@ -47,7 +47,7 @@ def my_login(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            return redirect('homepage')
+            return redirect('home')
 
         else:
             context['username'] = username
