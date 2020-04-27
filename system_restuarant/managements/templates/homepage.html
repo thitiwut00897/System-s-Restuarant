@@ -1,7 +1,7 @@
 {% extends "base.html" %} 
 {% block content %}
 
-<form method="POST" action="{% url 'homepage' %}">
+<form method="POST" action="{% url 'homepage' %}" enctype="multipart/fo rm-data">
      {% csrf_token %}
 
 <body>
