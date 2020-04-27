@@ -20,7 +20,7 @@ def management(request):
 def homepage(request):
     check = Restaurant.objects.all()
     list = []
-    for check in Restaurant:
+    for i in check:
         dict = {
             'id': check.restaurant_id,
             'name': check.restaurant_name,
@@ -77,7 +77,6 @@ def addRestaurant(request):
     })
 
 
-
 # def editRestaurant(request, id):
 #     restaurant = Restaurant.objects.get(restaurant_id=id)
 #     print(restaurant)
@@ -96,7 +95,6 @@ def addRestaurant(request):
 #         'form' : form,
 #         'restaurant': restaurant
 #     })
-
 
 
 def deleteRestaurant(request, id):
@@ -125,7 +123,6 @@ def addFood(request, id):
         'food': fd
 
     })
-
 
 
 # def editFood(request):
