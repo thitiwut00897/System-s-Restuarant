@@ -1,9 +1,9 @@
-{% comment %} {% extends "base.html" %}
+{% extends "base.html" %}
 {% block content %}
-    <form method="POST" action="{% url 'editFood' res_id=id food_id=id1 %}" class="mr" enctype="multipart/form-data" >
+    <form method="POST" action="{% url 'detailRestaurant' %}" enctype="multipart/form-data" >
 
 <div>
     hello
 </div>
 
-{% endblock %} {% endcomment %}
+{% endblock %}
