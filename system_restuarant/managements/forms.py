@@ -36,7 +36,7 @@ class EditRestaurantForm(ModelForm):
         model = Restaurant
         fields = ['restaurant_name', 'picture_restaurant',
                   'open_time', 'close_time']
-        label = {
+        labels = {
             'restaurant_name': 'ชื่อร้านอาหาร',
             'open_time': 'เวลาเปิดร้าน',
             'close_time': 'เวลาเปิดร้าน',
