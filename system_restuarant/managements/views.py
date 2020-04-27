@@ -5,12 +5,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from classes.models import Food, Owner, Restaurant, Type, Order,Order_List
-from managements.forms import AddFoodForm, AddRestaurantForm, EditRestaurantForm, EditFoodForm
+from classes.models import Food, Owner, Restaurant, Type, Order, Order_List
+from managements.forms import AddFoodForm, AddRestaurantForm, EditRestaurantForm
 
 
 def home(request):
-    return render(request, template_name='base.html')
+    return render(request, template_name='homepage.html')
 
 
 def management(request):
@@ -32,6 +32,11 @@ def homepage(request):
                   )
 
 
+def detailRestaurant(request):
+    restaurant = Restaurant.objects.all()
+    return redirect(request, template_name='detailRestaurant', context={'restaurant': restaurant})
+
+
 def my_login(request):
     context = {}
     if request.method == 'POST':
@@ -42,7 +47,7 @@ def my_login(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            return redirect('homepage')
+            return redirect('home')
 
         else:
             context['username'] = username
@@ -76,21 +81,25 @@ def addRestaurant(request):
         'restaurant': restaurant
     })
 
-def editRestaurant(request, id):
-    restaurant = Restaurant.objects.get(restaurant_id=id)
-    if request.method == 'POST':
-        form = EditRestaurantForm(request.POST, instance=restaurant)
-        if form.is_valid():
-            form.save()
-            return redirect(to='addRestaurant')
-    else:
-        form = EditRestaurantForm(instance=restaurant)
-    
-    return render(request, 'editRestaurant.html', context={
-        'form': form, 
-        'restaurant': restaurant,
-        'id' : id
-    })
+
+# def editRestaurant(request, id):
+#     restaurant = Restaurant.objects.get(restaurant_id=id)
+#     print(restaurant)
+#     if request.method == 'POST':
+#         form = EditRestaurantForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             typeRestaurant = Type.objects.get(type_name = request.POST.get('type_name'))
+#             restaurant = form.save(commit=False)
+#             restaurant.type_type_id = typeRestaurant
+#             print(restaurant.picture_restaurant)
+#             restaurant.save()
+#             return redirect('editRestaurant')
+#     else:
+#         form = EditRestaurantForm()
+#     return render(request, 'editRestaurant.html', context={
+#         'form' : form,
+#         'restaurant': restaurant
+#     })
 
 
 def deleteRestaurant(request, id):
@@ -101,12 +110,15 @@ def deleteRestaurant(request, id):
 
 def addFood(request, id):
     fd = Food.objects.filter(restaurant_id=id)
+    # print(fd)
     if request.method == 'POST':
         form = AddFoodForm(request.POST, request.FILES)
         if form.is_valid():
+            # Food.objects.create(food_name = request.POST.get('food_name'), picture = request.POST.get('picture'), price = request.POST.get('price'), restaurant_restaurant_id_id = id )
             food = form.save(commit=False)
             food.restaurant_id = id
             food.save()
+            # print(food.picture)
             return redirect('addFood', id=id)
     else:
         form = AddFoodForm()
@@ -118,48 +130,44 @@ def addFood(request, id):
     })
 
 
-def editFood(request, res_id, food_id):
-    food = Food.objects.get(food_id=food_id)
-    if request.method == 'POST':
-        if food.restaurant_id == res_id:
-            form = EditFoodForm(request.POST, instance=food)
-            if form.is_valid():
-                form.save()
-                return redirect('addFood', id=res_id)
-    else:
-        form = EditFoodForm(instance=food)
-    return render(request, 'editFood.html', context={
-        'form': form, 
-        'food': food,
-        'id' : food_id,
-        'id1' : res_id
-    })
+# def editFood(request):
+#     try:
+#         food = Food.objects.get(pk=food_id)
+#     except Food.DoesNotExist:
+#         return redirect('addFood')
+#     if request.method == 'POST':
+#         food.food_name=request.POST.get('food_name')
+#         food.picture=request.POST.get('picture')
+#         food.price=request.POST.get('price')
+#         food.save()
+#     context = {
+#         'food_name': Food.food_name,
+#         'picture': Food.picture,
+#         'price': Food.price
+#     }
+#     return render(request, 'editFood.html', context=context)
 
 def manageOrder(request):
     order = Order.objects.all()
     order_list = Order_List.objects.all()
-
     list = []
     list2 = []
     for od in order:
-        dict = {
-            'id': od.order_id,
-            'time': od.date_time
-        } 
-        list.append(dict)
-        
-    for ol in order_list:
-        dict2 = {
-            'id': ol.order_id,
-            'food': Food.objects.get(pk=ol.food_id).food_name,
-            'price': ol.price,
-            'unit': ol.unit
-        }
-        list2.append(dict2)
+        for ol in order_list:
+            if od.order_id == ol.order_id:
+                dict = {
+                    'id': od.order_id,
+                    'id_2': od.order_id,
+                    'time': od.date_time,
+                    'food': Food.objects.get(pk=ol.food_id).food_name,
+                    'price': ol.price,
+                    'unit': ol.unit
+
+                }
+                list.append(dict)
 
     return render(request, 'manageOrder.html', context={
-        'orders': list,
-        'foods':list2
+        'orders': list
     })
 
 
@@ -168,11 +176,10 @@ def deleteFood(request, res_id, food_id):
     food.delete()
     return redirect(to='addFood', id=res_id)
 
-
-def searchRestaurant(request):
-    search = request.GET.get('inputSearch', '')
-    filter = classes.object.filter(name__icontain=search)
-    return render(request, template_name='base.html',
-                  context={
-                      'search': search,
-                      'filter': filter})
+# def searchRestaurant(request):
+#     search = request.GET.get('inputSearch', '')
+#     filter = Restaurant.object.filter(name__icontain=search)
+#     return render(request, template_name='base.html',
+#                   context={
+#                       'search': search,
+#                       'filter': filter})
