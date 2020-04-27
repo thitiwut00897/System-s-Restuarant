@@ -35,7 +35,8 @@ class Type(models.Model):
     
 class Restaurant(models.Model):
     restaurant_id = models.AutoField(primary_key=True)
-    working_hours = models.TimeField(blank=True, null=True)
+    open_time = models.TimeField(blank=True, null=True)
+    close_time = models.TimeField(blank=True, null=True)
     picture_restaurant = models.ImageField(upload_to='uploads', null=True, blank=True)
     restaurant_name = models.CharField(max_length=50, null=True, blank=True)
     owner_account_account_id = models.ForeignKey(Owner, on_delete=models.CASCADE, null=True, blank=True)

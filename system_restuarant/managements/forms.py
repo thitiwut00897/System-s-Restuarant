@@ -9,29 +9,33 @@ from classes.models import Restaurant, Food
 class AddRestaurantForm(ModelForm):
     class Meta:
         model = Restaurant
-        fields = ['restaurant_name','picture_restaurant', 'working_hours']
+        fields = ['restaurant_name','picture_restaurant', 'open_time','close_time']
         labels = {
             'restaurant_name': 'ชื่อร้านอาหาร',
-            'working_hours': 'เวลาเปิดร้าน',
+            'open_time': 'เวลาเปิดร้าน',
+            'close_time': 'เวลาเปิดร้าน',
             'picture_restaurant': 'รูปภาพร้านอาหาร'
         }
         widgets = {
             'restaurant_name': forms.TextInput(attrs={'class':'form-control'}),
-            'working_hours': forms.TextInput(attrs={'class':'form-control'})
+            'open_time': forms.TextInput(attrs={'class':'form-control'}),
+            'close_time': forms.TextInput(attrs={'class':'form-control'})
         }
 
 class EditRestaurantForm(ModelForm):
     class Meta:
         model = Restaurant
-        fields = ['restaurant_name','picture_restaurant', 'working_hours']
+        fields = ['restaurant_name','picture_restaurant', 'open_time','close_time']
         label = {
             'restaurant_name': 'ชื่อร้านอาหาร',
-            'working_hours': 'เวลาเปิด/ปิดร้าน',
+            'open_time': 'เวลาเปิดร้าน',
+            'close_time': 'เวลาเปิดร้าน',
             'picture_restaurant': 'รูปภาพร้านอาหาร'
         }
         widgets = {
             'restaurant_name': forms.TextInput(attrs={'class':'form-control'}),
-            'working_hours': forms.TextInput(attrs={'class':'form-control'})
+            'working_hours': forms.TextInput(attrs={'class':'form-control'}),
+            'close_time': forms.TextInput(attrs={'class':'form-control'})
         }
 
 class AddFoodForm(ModelForm):
