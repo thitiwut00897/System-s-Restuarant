@@ -13,11 +13,14 @@
         </thead>
         <tbody>
             {% for order in orders %}
-                <tr>
+                <tr data-toggle="collapse" href="#demo{{order.id}}">
                     <th scope="row">{{order.id}}</th>
                     <td>{{order.id_2}}</td>
                     <td>{{ order.time}}</td>
-                    <td><Button type="button" class="btn btn-info" onclick=''>แสดงรายละเอียด</button></td>
+                    <td><Button type="button" class="btn btn-info" onclick=''>คลิ๊กแสดงรายละเอียด</button></td>
+                </tr>
+                <tr >
+                    <td colspan="6"><div class="accordian-body collapse" id="demo{{order.id}}"> Demo Content1 </div> </td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from classes.models import Food, Owner, Restaurant, Type, Order
+from classes.models import Food, Owner, Restaurant, Type, Order,Order_List
 from managements.forms import AddFoodForm, AddRestaurantForm, EditRestaurantForm
 
 
@@ -146,14 +146,18 @@ def addFood(request, id):
 
 def manageOrder(request):
     order = Order.objects.all()
+    order_list = Order_List.objects.all()
     list = []
+    list2 = []
     for od in order:
-        dict = {
-            'id': od.order_id,
-            'id_2': od.order_id,
-            'time': od.date_time
-        }
-        list.append(dict)
+        for ol in order_list:
+            if od.order_id == ol.order_order_id_id:
+                dict = {
+                    'id': od.order_id,
+                    'id_2': od.order_id,
+                    'time': od.date_time
+                }
+                list.append(dict)
 
     return render(request, 'manageOrder.html', context={
         'orders': list
