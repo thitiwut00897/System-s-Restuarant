@@ -190,7 +190,7 @@ def cancelOrder(request, order_id):
 def searchRestaurant(request):
     search = request.GET.get('search', '')
     restaurant = Restaurant.objects.all()
-    findres = Food.objects.filter(
+    findres = Restaurant.objects.filter(
         name__icontain=search
     )
     return render(request, '.html', context={

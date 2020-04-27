@@ -5,26 +5,23 @@
      {% csrf_token %}
 
 <body>
-    <div class="container row-12">
-        {% for i in check %}
-            <div class="col-3 mt-3 bg-light">
-                <h4><center>{{ i.restaurant_name }}</center></h4>
-                <center><a type="button" class="btn btn-link" href="{% url 'detailRestaurant' %}"> รายละเอียด </a></center>
-                <div class="row bg-light">
-                    {% for j in restaurant %}
-                        {% if j == i.restaurant_id %}
-                            <div class="col-3 m-2">
-                                <h4>{{ i.picture_restaurant }}</h4><img src="{{ j.picture_restaurant.url }}" width="200" height="150">
-                                {% comment %} {% if j.picture_restaurant %} {% endif %} {% endcomment %}
+    <div class="container">
+        <div class="row">
+            {% for i in check %}
+                <div class="col-sm m-3 bg-light">
+                    <h5><center>{{ i.restaurant_name }}</center></h5>
+                        <div class="mt-3 bg-light">
+                            {% if i.picture_restaurant %}
+                                <div class="mt-1">
+                                <center><img src="{{ i.picture_restaurant.url }}" width="200" height="150"></center>
                                 <br>
-                                {% comment %} <center><button type="button" class="btn btn-link"> รายละเอียด </button></center> {% endcomment %}
-                            </div>
-                        {% endif %} 
-                    {% endfor %}
-                </div>
-            </div>
-        </div> 
-        {% endfor %}
+                                <center><a type="button" class="btn btn-link" href="{% url 'detailRestaurant' %}"> รายละเอียด </a></center>
+                                </div>
+                            {% endif %} 
+                        </div>
+                </div> 
+            {% endfor %}
+        </div>
     </div>
 </body>
 {% endblock %}
