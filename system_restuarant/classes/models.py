@@ -33,7 +33,7 @@ class Order(models.Model):
         tag, tag.value) for tag in StateChoices], default=StateChoices.QUEUING, null=True, blank=True)
     total_price = models.FloatField(max_length=10, null=True, blank=True)
     date_time = models.DateTimeField(blank=True, auto_now_add=True)
-    customer_account_account_id = models.ForeignKey(
+    customer = models.ForeignKey(
         Customer, on_delete=models.CASCADE, null=True, blank=True)
 
 
@@ -49,9 +49,9 @@ class Restaurant(models.Model):
     picture_restaurant = models.ImageField(
         upload_to='uploads', null=True, blank=True)
     restaurant_name = models.CharField(max_length=50, null=True, blank=True)
-    owner_account_account_id = models.ForeignKey(
+    owner = models.ForeignKey(
         Owner, on_delete=models.CASCADE, null=True, blank=True)
-    type_type_id = models.ForeignKey(
+    types = models.ForeignKey(
         Type, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
@@ -63,18 +63,15 @@ class Food(models.Model):
     food_name = models.CharField(max_length=50, null=True, blank=True)
     picture = models.ImageField(upload_to='uploads', null=True, blank=True)
     price = models.FloatField(max_length=10, null=True, blank=True)
-    restaurant_restaurant_id = models.ForeignKey(
+    restaurant = models.ForeignKey(
         Restaurant, on_delete=models.CASCADE, null=True, blank=True)
-
-    def __str__(self):
-        return self.food_name
 
 
 class Order_List(models.Model):
     list_no = models.AutoField(primary_key=True)
     unit = models.IntegerField(null=True, blank=True)
     price = models.FloatField(max_length=50, null=True, blank=True)
-    order_order_id = models.ForeignKey(
+    order = models.ForeignKey(
         Order, on_delete=models.CASCADE, null=True, blank=True)
-    food_food_id = models.ForeignKey(
+    food = models.ForeignKey(
         Food, on_delete=models.CASCADE, null=True, blank=True)
