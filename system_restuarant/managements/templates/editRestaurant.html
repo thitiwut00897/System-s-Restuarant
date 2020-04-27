@@ -20,11 +20,16 @@
             <div class="form-group col-md-4">
                 <label for="inputType">ประเภทร้านอาหาร</label>
                 <input type="text" class="form-control" name="type_name" id="inputType">
-                </div>
-            <div class="form-group col-md-2">
-                <label for=" {{form.id_for_label}} ">{{ form.working_hours.label }}</label>
-                {{ form.working_hours }}
-                {{ form.working_hours.errors }}
+            </div>
+             <div class="form-group">
+                <label for=" {{form.id_for_label}} ">{{ form.open_time.label }}</label>
+                {{ form.open_time }}
+                {{ form.open_time.errors }}
+            </div>
+            <div class="form-group">
+                <label for=" {{form.id_for_label}} ">{{ form.close_time.label }}</label>
+                {{ form.close_time}}
+                {{ form.close_time.errors }}
             </div>
         </div>
         <div class="input-group">
