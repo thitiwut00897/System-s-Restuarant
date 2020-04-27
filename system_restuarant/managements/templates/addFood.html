@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-    <form method="POST" action="{% url 'editFood' res_id=id1 food_id=id %}" class="mr" enctype="multipart/form-data" >
+    <form method="POST" action="{% url 'addFood' res_id=id1 food_id=id %}" class="mr" enctype="multipart/form-data" >
      {% csrf_token %}
-     <h2>แก้ไขรายการอาหาร</h2><br>
+     <h2>เพิ่มรายการอาหาร</h2><br>
      {{ form.non_field_errors }}
         <div class="form-group">
             <label for=" {{form.food_name.id_for_label}} ">{{ form.food_name.label }}</label>
@@ -21,14 +21,11 @@
                 <span class="input-group-text" >Upload Picture</span>
             </div>
             <div class="custom">
+                {{ form.picture}}
                 <label class="custom-file-label" for="{{form.picture.id_for_label}}">Choose file</label>
+                {{ form.picture.errors}}
             </div> 
-            {{ form.picture}}
-            
-        </div><br>
-        </div><button type="submit" class="btn btn-primary">บันทึก</button>
-        </form>
-    </div>
-    
-               
+        </div>
+        <br><button type="submit" class="btn btn-primary ">บันทึก</button>
+        </form>             
 {% endblock %}

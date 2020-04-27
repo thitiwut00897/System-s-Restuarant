@@ -24,11 +24,11 @@ class AddRestaurantForm(ModelForm):
             'picturerestaurant': forms.FileInput(attrs={'class': 'custom-file-input'})
         }
 
-        def clean(self):
-            cleaned_data = super().clean()
-            if(price.isdigit() == false):
-                msg = "กรุณากรอกตัวเลข"
-                self.add_error('price', msg)
+        # def clean(self):
+        #     cleaned_data = super().clean()
+        #     if(price.isdigit() == false):
+        #         msg = "กรุณากรอกตัวเลข"
+        #         self.add_error('price', msg)
 
 
 class EditRestaurantForm(ModelForm):

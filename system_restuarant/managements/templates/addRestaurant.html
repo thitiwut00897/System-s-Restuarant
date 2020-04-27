@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    <form method="POST" action="{% url 'addRestaurant' %}" class="fr" enctype="multipart/form-data">
+    <form method="POST" action="{% url 'addRestaurant' id=id %}" class="fr" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.non_field_errors }}
         <h2>เพิ่มร้านอาหาร</h2><br>
@@ -34,28 +34,6 @@
                 {{ form.picture_restaurant}}
                 {{ form.picture_restaurant.errors}}
             </div><br>
-       <button type="submit" class="btn btn-primary">บันทึก</button><br><br><br>
-       <table class="table">
-            <thead>
-                <tr>
-                <th scope="col"><center>รูปร้านอาหาร</center></th>
-                <th scope="col"><center>ชื่อร้านอาหาร</center></th>
-                <th scope="col"><center>จัดการร้านอาหาร</center></th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for i in restaurant %}
-                <tr>
-                    <td><center>{% if i.picture_restaurant %} <img src="{{ i.picture_restaurant.url }}">{% endif %}</center></td>
-                    <td><center>{{ i.restaurant_name }}</center></td>
-                    <td><center>
-                        <a type="button" class="btn btn-info" href="{% url 'addFood' i.restaurant_id %}">จัดการรายการอาหาร</a>
-                        <a type="button" class="btn btn-warning" href="{% url 'editRestaurant' id=i.restaurant_id %}">แก้ไขร้านอาหาร</a>
-                        <a type="button" class="btn btn-danger" href="{% url 'deleteRestaurant' id=i.restaurant_id %}">ลบร้านอาหาร</a></center>
-                    </td> 
-                </tr>
-            {% endfor %}
-            </tbody>
-            </table>
+            <button type="submit" class="btn btn-primary">บันทึก</button>
         </form>      
 {% endblock %}
