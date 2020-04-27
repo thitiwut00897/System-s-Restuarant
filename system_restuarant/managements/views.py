@@ -18,19 +18,20 @@ def management(request):
 
 
 def homepage(request):
-    res = Restaurant.objects.all() 
-    list=[]
-    for check in res:
+    restaurant = Restaurant.objects.all()
+    list = []
+    for check in restaurant:
         dict = {
-            'id': check.restaurant_id,
-            'name': check.restaurant_name,
-            'picture': check.picture_restaurant
+            'restaurant_id': check.restaurant_id,
+            'restaurant_name': check.restaurant_name,
+            'picture_restaurant': check.picture_restaurant
         }
         list.append(dict)
-    return render(request, 'homepage.html', 
-        context={'check': list}
-        )
-    
+    return render(request, 'homepage.html',
+                  context={'check': list}
+                  )
+
+
 def my_login(request):
     context = {}
     if request.method == 'POST':
@@ -76,7 +77,6 @@ def addRestaurant(request):
     })
 
 
-
 # def editRestaurant(request, id):
 #     restaurant = Restaurant.objects.get(restaurant_id=id)
 #     print(restaurant)
@@ -95,7 +95,6 @@ def addRestaurant(request):
 #         'form' : form,
 #         'restaurant': restaurant
 #     })
-
 
 
 def deleteRestaurant(request, id):
@@ -124,7 +123,6 @@ def addFood(request, id):
         'food': fd
 
     })
-
 
 
 # def editFood(request):
