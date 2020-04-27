@@ -180,6 +180,16 @@ def deleteFood(request, res_id, food_id):
     food.delete()
     return redirect(to='addFood', id=res_id)
 
+def confirmOrder(request,order_id):
+    order = Order.objects.get(pk=order_id)
+    order.state = "Queuing"
+    return redirect(to='manageOrder')
+
+def cancelOrder(request,order_id):
+    order = Order.objects.get(pk=order_id)
+    order.delete()
+    return redirect(to='manageOrder')
+
 # def searchRestaurant(request):
 #     search = request.GET.get('inputSearch', '')
 #     filter = Restaurant.object.filter(name__icontain=search)

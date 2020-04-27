@@ -17,19 +17,26 @@
                     <th scope="row">{{order.id}}</th>
                     <td>{{order.id}}</td>
                     <td>{{ order.time}}</td>
-                    <td><Button type="button" data-toggle="collapse" href="#demo{{order.id}}" class="btn btn-info" onclick=''>คลิ๊กแสดงรายละเอียด</button></td>
+                    <td><Button type="button" data-toggle="collapse" data-target="#demo{{order.id}}" class="btn btn-info" onclick=''>คลิ๊กแสดงรายละเอียด</button></td>
                 </tr>
-                {% for food in foods %}
-                    {% if order.id == food.id %}
-                        <tr >
-                            <td colspan="4"><div class="accordian-body collapse" id="demo{{order.id}}"> อาหาร: {{food.food}} จำนวน: {{food.unit}} ราคา {{food.price}}</div> </td>
-                        </tr>
-                        
-                    {% endif %}
-                {% endfor %}
+                
                 <tr >
-                     <td colspan="4"><div class="accordian-body collapse" id="demo{{order.id}}"> ราคารวม: {{order.total_price}}</div> </td>
+                <td colspan="6" class="collapse" id="demo{{order.id}}">
+                    <div class="collapse" id="demo{{order.id}}"> 
+                        {% for food in foods %}
+                            {% if order.id == food.id %}
+                                อาหาร: {{food.food}} จำนวน: {{food.unit}} ราคา {{food.price}}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div> 
+                    <div>
+                    <a class="btn btn-success" href="{% url 'confirmOrder' order_id=order.id%}">รับออเดอร์</a>
+                    <a class="btn btn-danger" href="{% url 'cancelOrder' order_id=order.id%}">ยกเลิกออเดอร์</a>
+                    </div>
+                </td>
                 </tr>
+                        
+                    
             {% endfor %}
         </tbody>
         </table>
