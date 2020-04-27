@@ -138,24 +138,28 @@ def editFood(request, res_id, food_id):
 def manageOrder(request):
     order = Order.objects.all()
     order_list = Order_List.objects.all()
+
     list = []
     list2 = []
     for od in order:
-        for ol in order_list:
-            if od.order_id == ol.order_id:
-                dict = {
-                    'id': od.order_id,
-                    'id_2': od.order_id,
-                    'time': od.date_time,
-                    'food': Food.objects.get(pk=ol.food_id).food_name,
-                    'price': ol.price,
-                    'unit': ol.unit
-
-                }
-                list.append(dict)
+        dict = {
+            'id': od.order_id,
+            'time': od.date_time
+        } 
+        list.append(dict)
+        
+    for ol in order_list:
+        dict2 = {
+            'id': ol.order_id,
+            'food': Food.objects.get(pk=ol.food_id).food_name,
+            'price': ol.price,
+            'unit': ol.unit
+        }
+        list2.append(dict2)
 
     return render(request, 'manageOrder.html', context={
-        'orders': list
+        'orders': list,
+        'foods':list2
     })
 
 
