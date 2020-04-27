@@ -18,13 +18,13 @@ def management(request):
 
 
 def homepage(request):
-    res = Restaurant.objects.all()
+    restaurant = Restaurant.objects.all()
     list = []
-    for check in res:
+    for check in restaurant:
         dict = {
-            'id': check.restaurant_id,
-            'name': check.restaurant_name,
-            'picture': check.picture_restaurant
+            'restaurant_id': check.restaurant_id,
+            'restaurant_name': check.restaurant_name,
+            'picture_restaurant': check.picture_restaurant
         }
         list.append(dict)
     return render(request, 'homepage.html',
