@@ -89,6 +89,7 @@ def editRestaurant(request, id):
     return render(request, 'editRestaurant.html', context={
         'form': form, 
         'restaurant': restaurant,
+        'id' : id
         # 'success': success
     })
 
