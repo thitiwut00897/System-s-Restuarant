@@ -10,7 +10,7 @@ from managements.forms import AddFoodForm, AddRestaurantForm, EditRestaurantForm
 
 
 def home(request):
-    return render(request, template_name='homepage.html')
+    return render(request, 'homepage.html')
 
 
 def management(request):
@@ -34,7 +34,7 @@ def homepage(request):
 
 def detailRestaurant(request):
     restaurant = Restaurant.objects.all()
-    return redirect(request, template_name='detailRestaurant', context={'restaurant': restaurant})
+    return render(request, 'detailRestaurant.html', context={'restaurant': restaurant})
 
 
 def my_login(request):
@@ -84,21 +84,18 @@ def addRestaurant(request):
 
 def editRestaurant(request, id):
     restaurant = Restaurant.objects.get(restaurant_id=id)
-    print(restaurant)
     if request.method == 'POST':
-        form = EditRestaurantForm(request.POST, request.FILES)
+        form = EditRestaurantForm(request.POST, instance=restaurant)
         if form.is_valid():
-            typeRestaurant = Type.objects.get(type_name = request.POST.get('type_name'))
-            restaurant = form.save(commit=False)
-            restaurant.type_type_id = typeRestaurant
-            print(restaurant.picture_restaurant)
-            restaurant.save()
-            return redirect('editRestaurant')
+            form.save()
+            return redirect(to='addRestaurant')
     else:
-        form = EditRestaurantForm()
+        form = EditRestaurantForm(instance=restaurant)
+
     return render(request, 'editRestaurant.html', context={
-        'form' : form,
-        'restaurant': restaurant
+        'form': form,
+        'restaurant': restaurant,
+        'id': id
     })
 
 
@@ -110,15 +107,12 @@ def deleteRestaurant(request, id):
 
 def addFood(request, id):
     fd = Food.objects.filter(restaurant_id=id)
-    # print(fd)
     if request.method == 'POST':
         form = AddFoodForm(request.POST, request.FILES)
         if form.is_valid():
-            # Food.objects.create(food_name = request.POST.get('food_name'), picture = request.POST.get('picture'), price = request.POST.get('price'), restaurant_restaurant_id_id = id )
             food = form.save(commit=False)
             food.restaurant_id = id
             food.save()
-            # print(food.picture)
             return redirect('addFood', id=id)
     else:
         form = AddFoodForm()
@@ -126,26 +120,26 @@ def addFood(request, id):
         'form': form,
         'id': id,
         'food': fd
-
     })
 
 
-def editFood(request):
-    try:
-        food = Food.objects.get(pk=food_id)
-    except Food.DoesNotExist:
-        return redirect('addFood')
+def editFood(request, res_id, food_id):
+    food = Food.objects.get(food_id=food_id)
     if request.method == 'POST':
-        food.food_name=request.POST.get('food_name')
-        food.picture=request.POST.get('picture')
-        food.price=request.POST.get('price')
-        food.save()
-    context = {
-        'food_name': Food.food_name,
-        'picture': Food.picture,
-        'price': Food.price
-    }
-    return render(request, 'editFood.html', context=context)
+        if food.restaurant_id == res_id:
+            form = EditFoodForm(request.POST, instance=food)
+            if form.is_valid():
+                form.save()
+                return redirect('addFood', id=res_id)
+    else:
+        form = EditFoodForm(instance=food)
+    return render(request, 'editFood.html', context={
+        'form': form,
+        'food': food,
+        'id': food_id,
+        'id1': res_id
+    })
+
 
 def manageOrder(request):
     order = Order.objects.all()
@@ -156,22 +150,22 @@ def manageOrder(request):
         dict = {
             'id': od.order_id,
             'time': od.date_time,
-            'total_price' : od.total_price
-            }
+            'total_price': od.total_price
+        }
         list.append(dict)
 
     for ol in order_list:
         dict2 = {
-        'id': ol.order_id,
-        'food': Food.objects.get(pk=ol.food_id).food_name,
-        'price': ol.price,
-        'unit': ol.unit
+            'id': ol.order_id,
+            'food': Food.objects.get(pk=ol.food_id).food_name,
+            'price': ol.price,
+            'unit': ol.unit
         }
         list2.append(dict2)
 
     return render(request, 'manageOrder.html', context={
         'orders': list,
-        'foods':list2
+        'foods': list2
     })
 
 
@@ -180,10 +174,11 @@ def deleteFood(request, res_id, food_id):
     food.delete()
     return redirect(to='addFood', id=res_id)
 
-# def searchRestaurant(request):
-#     search = request.GET.get('inputSearch', '')
-#     filter = Restaurant.object.filter(name__icontain=search)
-#     return render(request, template_name='base.html',
-#                   context={
-#                       'search': search,
-#                       'filter': filter})
+
+def searchRestaurant(request):
+    search = request.GET.get('inputSearch', '')
+    filter = Restaurant.object.filter(name__icontain=search)
+    return render(request, template_name='base.html',
+                  context={
+                      'search': search,
+                      'filter': filter})
