@@ -20,7 +20,7 @@
                     <td><Button type="button" class="btn btn-info" onclick=''>คลิ๊กแสดงรายละเอียด</button></td>
                 </tr>
                 <tr >
-                    <td colspan="6"><div class="accordian-body collapse" id="demo{{order.id}}"> Demo Content1 </div> </td>
+                    <td colspan="6"><div class="accordian-body collapse" id="demo{{order.id}}"> อาหาร: {{order.food}} จำนวน: {{order.unit}} ราคา {{order.price}}</div> </td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -105,14 +105,14 @@ def deleteRestaurant(request, id):
 
 
 def addFood(request, id):
-    fd = Food.objects.filter(restaurant_restaurant_id_id=id)
+    fd = Food.objects.filter(restaurant_id=id)
     # print(fd)
     if request.method == 'POST':
         form = AddFoodForm(request.POST, request.FILES)
         if form.is_valid():
             # Food.objects.create(food_name = request.POST.get('food_name'), picture = request.POST.get('picture'), price = request.POST.get('price'), restaurant_restaurant_id_id = id )
             food = form.save(commit=False)
-            food.restaurant_restaurant_id_id = id
+            food.restaurant_id = id
             food.save()
             # print(food.picture)
             return redirect('addFood', id=id)
@@ -151,11 +151,15 @@ def manageOrder(request):
     list2 = []
     for od in order:
         for ol in order_list:
-            if od.order_id == ol.order_order_id_id:
+            if od.order_id == ol.order_id:
                 dict = {
                     'id': od.order_id,
                     'id_2': od.order_id,
-                    'time': od.date_time
+                    'time': od.date_time,
+                    'food': Food.objects.get(pk=ol.food_id).food_name,
+                    'price': ol.price,
+                    'unit': ol.unit
+
                 }
                 list.append(dict)
 
