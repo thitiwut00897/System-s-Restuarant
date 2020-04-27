@@ -3,15 +3,12 @@ from enum import Enum
 from django.contrib.auth.models import User
 # Create your models here.
 
-class Account(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-
 class Customer(models.Model):
-    account_id = models.OneToOneField(Account, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     faculty = models.CharField(max_length=50, null=True, blank=True)
 
 class Owner(models.Model):
-    account_id = models.OneToOneField(Account, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     picture_owner = models.ImageField(upload_to='uploads', null=True, blank=True)
 
 class StateChoices(Enum):
