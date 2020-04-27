@@ -15,12 +15,10 @@ urlpatterns = [
     path('restaurant/food/add/<int:id>/', views.addFood, name='addFood'),
     path('restautant/delete/<int:id>/',
          views.deleteRestaurant, name='deleteRestaurant'),
-    # path('restaurant/detailRestaurant/<int:id>',
-    #      views.detailRestaurant, name = 'detailRestaurant'),
     path('restaurant/food/<int:res_id>/delete/<int:food_id>/',
          views.deleteFood, name='deleteFood'),
     path('restaurant/edit/<int:id>/', views.editRestaurant, name='editRestaurant'),
-    path('manageOrder', views.manageOrder, name='manageOrder')
-    # path('restaurant/edit/<int:id>/', views.editRestaurant, name='editRestaurant'),
-    # path('restaurant/food/edit/<int:id>/', views.editFood, name='editFood')
+    path('manageOrder', views.manageOrder, name='manageOrder'),
+    path('restaurant/food/<int:res_id>/edit/<int:food_id>/',
+         views.editFood, name='editFood')
 ]

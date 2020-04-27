@@ -60,4 +60,19 @@ class AddFoodForm(ModelForm):
         #     price = cleaned_data.get('price')
         #     if(price.isdigit() == false):
         #         msg = "กรุณากรอกตัวเลข"
-        #         self.add_error('price', msg)                
+        #         self.add_error('price', msg)   
+        # 
+        
+class EditFoodForm(ModelForm):
+    class Meta:
+        model = Food
+        fields = ['food_name', 'picture', 'price']
+        labels = {
+            'food_name': 'ชื่ออาหาร',
+            'price': 'ราคา',
+            'picture': 'รูปร้านอาหาร'
+        }
+        widgets = {
+            'food_name': forms.TextInput(attrs={'class':'form-control'}),
+            'price': forms.TextInput(attrs={'class':'form-control'})
+        }             

@@ -44,7 +44,7 @@
                     <td><center>{{ i.food_name }}</center></td>
                     <td><center>{{ i.price }} Baht</center></td>
                     <td><center>
-                        <a type="button" class="btn btn-warning" href="#">แก้ไขร้านอาหาร</a>
+                        <a type="button" class="btn btn-warning" href="{% url 'editFood' res_id=id food_id=i.food_id%}">แก้ไขร้านอาหาร</a>
                         <a type="button" class="btn btn-danger" href="{% url 'deleteFood' res_id=id food_id=i.food_id %}">ลบร้านอาหาร</a></center>
                     </center></td> 
                 </tr>
