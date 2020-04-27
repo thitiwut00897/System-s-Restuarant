@@ -1,27 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
-    <form method="POST" action="{% url 'editRestaurant' id=id %}" enctype="multipart/form-data" >
+    <form method="POST" action="{% url 'editRestaurant' id=id %}" enctype="multipart/form-data"class="rt" >
     {% csrf_token %}
-    {% comment %} {% if success %}
-    <div class="row">
-        <div class="col text-success">
-            {{success}}
-        </div>
-    </div>
-    {% endif %} {% endcomment %}
     {{ form.non_field_errors }}
-        <h4> Restaurant</h4><br>
-        <div class="form-row">
-            <div class="form-group col-md-6">
+        <h2>แก้ไขร้านอาหาร</h2><br>
+            <div class="form-group">
                 <label for=" {{form.restaurant_name.id_for_label}} ">{{ form.restaurant_name.label }}</label>
                 {{ form.restaurant_name }}
                 {{ form.restaurant_name.errors }}
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group">
                 <label for="inputType">ประเภทร้านอาหาร</label>
                 <input type="text" class="form-control" name="type_name" id="inputType">
             </div>
-             <div class="form-group">
+            <div class="form-group">
                 <label for=" {{form.id_for_label}} ">{{ form.open_time.label }}</label>
                 {{ form.open_time }}
                 {{ form.open_time.errors }}
@@ -31,20 +23,18 @@
                 {{ form.close_time}}
                 {{ form.close_time.errors }}
             </div>
-        </div>
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text" >Upload Picture</span>
-            </div>
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" aria-describedby="inputGroupFileAddon01">
-                <label class="custom-file-label" for="{{form.picture_restaurant.id_for_label}}">Choose file</label>
-            </div> 
-            {{ form.picture_restaurant}}
-            {{ form.picture_restaurant.errors }}
-        </div>
-        </div><br>
-       <button type="submit" class="btn btn-primary" >Save</button>
+            <label for="inputType">รูปร้านอาหาร</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" >Upload Picture</span>
+                </div>
+                <div class="custom">
+                    <label class="custom-file-label" for="{{form.picture_restaurant.id_for_label}}">Choose file</label>
+                </div> 
+                {{ form.picture_restaurant}}
+                {{ form.picture_restaurant.errors}}
+            </div><br>
+       <button type="submit" class="btn btn-primary">บันทึก</button>
         </form>
     </div>
 
