@@ -11,17 +11,15 @@
                 <h4><center>{{ i.restaurant_name }}</center></h4>
                 <center><a type="button" class="btn btn-link" href="{% url 'detailRestaurant' %}"> รายละเอียด </a></center>
                 <div class="row bg-light">
-                    {% for j in restaurant %}
-                        {% if j == i.restaurant_id %}
+                {% if i.picture_restaurant %}
                             <div class="col-3 m-2">
-                                <h4>{{ i.picture_restaurant }}</h4><img src="{{ j.picture_restaurant.url }}" width="200" height="150">
-                                {% comment %} {% if j.picture_restaurant %} {% endif %} {% endcomment %}
+                                <h4>{{ i.picture_restaurant }}</h4><img src="{{ i.picture_restaurant.url }}" width="200" height="150">
+
                                 <br>
-                                {% comment %} <center><button type="button" class="btn btn-link"> รายละเอียด </button></center> {% endcomment %}
+                                <center><button type="button" class="btn btn-link"> รายละเอียด </button></center>
                             </div>
-                        {% endif %} 
-                    {% endfor %}
                 </div>
+                {% endif %}
             </div>
         </div> 
         {% endfor %}
