@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    <form method="POST" action="{% url 'editFood' res_id=id food_id=id1 %}" class="mr" enctype="multipart/form-data" >
+    <form method="POST" action="{% url 'editFood' res_id=id1 food_id=id %}" class="mr" enctype="multipart/form-data" >
      {% csrf_token %}
      <h2>แก้ไขรายการอาหาร</h2><br>
      {{ form.non_field_errors }}
@@ -27,7 +27,7 @@
             
         </div>
 
-        </div><br><button type="submit" class="btn btn-primary">บันทึก</button>
+        </div><button type="submit" class="btn btn-primary">บันทึก</button>
         </form>
     </div>
     
