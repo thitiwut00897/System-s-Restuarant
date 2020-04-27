@@ -34,7 +34,7 @@ class Restaurant(models.Model):
     picture_restaurant = models.ImageField(upload_to='uploads', null=True, blank=True)
     restaurant_name = models.CharField(max_length=50, null=True, blank=True)
     owner = models.ForeignKey(Owner, on_delete=models.CASCADE, null=True, blank=True)
-    type_type_id = models.ForeignKey(Type,on_delete=models.CASCADE, null=True, blank=True)
+    types = models.ForeignKey(Type,on_delete=models.CASCADE, null=True, blank=True)
 
 class Food(models.Model):
     food_id = models.AutoField(primary_key=True)
