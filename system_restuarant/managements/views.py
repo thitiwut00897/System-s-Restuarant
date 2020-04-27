@@ -76,9 +76,7 @@ def addRestaurant(request):
         'restaurant': restaurant
     })
 
-
 def editRestaurant(request, id):
-    restaurant = Restaurant.objects.all()
     restaurant = Restaurant.objects.get(restaurant_id=id)
     # success = ''
     if request.method == 'POST':
@@ -94,6 +92,7 @@ def editRestaurant(request, id):
         # 'success': success
     })
 
+
 def deleteRestaurant(request, id):
     restaurant = Restaurant.objects.get(restaurant_id=id)
     restaurant.delete()
@@ -102,12 +101,15 @@ def deleteRestaurant(request, id):
 
 def addFood(request, id):
     fd = Food.objects.filter(restaurant_id=id)
+    # print(fd)
     if request.method == 'POST':
         form = AddFoodForm(request.POST, request.FILES)
         if form.is_valid():
+            # Food.objects.create(food_name = request.POST.get('food_name'), picture = request.POST.get('picture'), price = request.POST.get('price'), restaurant_restaurant_id_id = id )
             food = form.save(commit=False)
             food.restaurant_id = id
             food.save()
+            # print(food.picture)
             return redirect('addFood', id=id)
     else:
         form = AddFoodForm()
