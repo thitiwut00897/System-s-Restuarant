@@ -1,11 +1,13 @@
 from builtins import object
+from gc import get_objects
 
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from classes.models import Account, Food, Owner, Restaurant, Type
-from managements.forms import AddFoodForm, AddRestaurantForm,EditRestaurantForm
+from managements.forms import (AddFoodForm, AddRestaurantForm,
+                               EditRestaurantForm)
 
 
 def home(request):
@@ -15,8 +17,19 @@ def management(request):
     return render(request, template_name='managementRestaurant.html')
 
 def homepage(request):
-    return render(request, template_name='homepage.html')
-
+    check = Restaurant.objects.all() 
+    list=[]
+    for check in Restaurant:
+        dict = {
+            'id':check.restaurant_id,
+            'name':check.restaurant_name,
+            'picture':check.picture_restaurant
+        }
+        list.append(dict)
+    return render(request, template_name='homepage.html', 
+        context={'check': list}
+        )
+    
 def my_login(request):
     context = {}
     if request.method == 'POST':
@@ -150,4 +163,3 @@ def searchRestaurant(request):
                   context={
                       'search': search,
                       'filter': filter})
-                      
