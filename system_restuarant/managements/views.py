@@ -36,7 +36,7 @@ def homepage(request):
 
 
 def detailRestaurant(request, id):
-    res_id = Restaurant.objects.get(restaurant_id=id)
+    res_id = Restaurant.objects.get(pk=id)
     food_id = Food.objects.filter(food_id=res_id.restaurant_id)
     list_res = []
     list_food = []
@@ -46,7 +46,7 @@ def detailRestaurant(request, id):
             'food_name': food_id.food_name,
             'picture_food': food_id.picture,
             'price': food_id.price,
-            'restaurant': food_id.restaurant
+            'restaurant': food_id.restaurant_id
         }
         list_food.append(dict_food)
 

@@ -26,8 +26,8 @@
                 <a type="button" class="btn btn-info" href="{% url 'manageOrder' %}">จัดการออเดอร์</a>
                 <a type="button" class="btn btn-info" >สถานะออเดอร์</a>
             {% else  %}
-                <a type="button" class="btn btn-info" data-target="#demo{{food_name}}" href="{% url 'detailRestaurant' id=id %}">แสดงรายการอาหาร</a>
-                    {{ food_name }}
+                <a type="button" class="btn btn-info" href="{% url 'detailRestaurant' id=id %}">แสดงรายการอาหาร</a>
+
             {% endif %}        
         </div>
     </div>
