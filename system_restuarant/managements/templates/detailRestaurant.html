@@ -3,7 +3,7 @@
     <form method="POST" action="{% url 'detailRestaurant' id=id %}" enctype="multipart/form-data" >
 
 <div class="container">
-    {% for i in check %}
+    {% for i in res_id %}
     <div class="row">
         <div class="bg-light">
                 <div class="m-3 bg-light">
@@ -19,8 +19,8 @@
                </div>
         </div>
     <div>
-        <h6>รหัสร้านอาหาร: {{ i.restaurant_id }}</h6>
         <h6>ชื่อร้านอาหาร: {{ i.restaurant_name }}</h6>
+        <h6>รหัสร้านอาหาร: {{ i.restaurant_id }}</h6>
         <h6>Open-Time: {{ i.open_time }}</h6>
         <h6>Close-Time: {{ i.close_time }}</h6>
         <h6>ประเภทของร้าน: <center>{{ i.types }}</center></h6>
@@ -28,21 +28,17 @@
     </div>
     {% endfor %}
     <div class="container">
-        {% if user.is_authenticated %}
-            <div class="row">
-                <div class="col-sm">
-                    <a type="button" class="btn btn-info" href="{% url ''  %}">จัดการออเดอร์</a>
-                    <a type="button" class="btn btn-info" href="{% url ''  %}">สถานะออเดอร์</a>
-                </div>
+        <div class="row">
+            <div class="col-sm">
+                {% if user.is_authenticated %}
+                    <a type="button" class="btn btn-info" href="{% url 'manageOrder' %}">จัดการออเดอร์</a>
+                    <a type="button" class="btn btn-info" >สถานะออเดอร์</a>
+                {% else  %}
+                    <a type="button" class="btn btn-info" href="{% url 'detailRestaurant' id=id %}">แสดงรายการอาหาร</a>
+                {% endif %}
             </div>
-        {% else %}
-            <div class="row">
-                <div class="col-sm">
-                    <a type="button" class="btn btn-info" href="{% url ''  %}">แสดงรายการอาหาร</a>
-                </div>
-            </div>
-        {% endif %}
-    </div>
+        </div>
+    </div> 
 
 </div>
 

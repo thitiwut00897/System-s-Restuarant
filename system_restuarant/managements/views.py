@@ -15,7 +15,7 @@ def home(request):
 
 def management(request):
     restaurant = Restaurant.objects.all()
-    return render(request, 'management.html',context={
+    return render(request, 'management.html', context={
         'restaurant': restaurant
     })
 
@@ -34,9 +34,23 @@ def homepage(request):
                   )
 
 
-def detailRestaurant(request):
-    restaurant = Restaurant.objects.all()
-    return render(request, 'detailRestaurant.html', context={'restaurant': restaurant})
+def detailRestaurant(request, id):
+    res_id = Restaurant.objects.get(restaurant_id=id)
+    list = []
+    dict = {
+        'restaurant_id': res_id.restaurant_id,
+        'restaurant_name': res_id.restaurant_name,
+        'open_time': res_id.open_time,
+        'close_time': res_id.close_time,
+        'types': res_id.types,
+        'owner': res_id.owner,
+        'picture_restaurant': res_id.picture_restaurant,
+    }
+    list.append(dict)
+    return render(request, 'detailRestaurant.html', context={
+        'id': id,
+        'res_id': list
+    })
 
 
 def my_login(request):
@@ -176,7 +190,7 @@ def manageOrder(request):
 
 def deleteFood(request, res_id, food_id):
     food = Food.objects.get(food_id=food_id)
-    food.delete()                                                                         
+    food.delete()
     return redirect(to='managementFood', id=res_id)
 
 
