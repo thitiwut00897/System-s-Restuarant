@@ -1,35 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
-    <form method="POST" action="{% url 'editFood' res_id=id1 food_id=id %}" class="mr" enctype="multipart/form-data" >
-     {% csrf_token %}
-     <h2>แก้ไขรายการอาหาร</h2><br>
-     {{ form.non_field_errors }}
-        <div class="form-group">
-            <label for=" {{form.food_name.id_for_label}} ">{{ form.food_name.label }}</label>
-            {{ form.food_name }}
-            {{ form.food_name.errors }}
-        </div>
+<div class="nm">
+        <div class="card">
+            <div class="card-header"><h2>แก้ไขรายการอาหาร</h2></div>
+            <div class="card-body">
+                <form method="POST" action="{% url 'editFood' res_id=id1 food_id=id %}" enctype="multipart/form-data" >
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                    <div class="form-group">
+                        <label for=" {{form.food_name.id_for_label}} ">{{ form.food_name.label }}</label>
+                        {{ form.food_name }}
+                        {{ form.food_name.errors }}
+                    </div>
 
-        <div class="form-group ">
-            <label for=" {{form.price.id_for_label}} ">{{ form.price.label }}</label>
-            {{ form.price}}
-            {{ form.price.errors }}
-        </div>
-        <label for="inputType">รูปอาหาร</label>
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text" >Upload Picture</span>
+                    <div class="form-group ">
+                        <label for=" {{form.price.id_for_label}} ">{{ form.price.label }}</label>
+                        {{ form.price}}
+                        {{ form.price.errors }}
+                    </div>
+                    <label for="inputType">รูปอาหาร</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" >Upload Picture</span>
+                        </div>
+                        <div class="custom">
+                            {{ form.picture}}
+                            <label class="custom-file-label" for="{{form.picture.id_for_label}}">Choose file</label>
+                            {{ form.picture.errors}}
+                        </div> 
+                    </div>
+                    <br><button type="submit" class="btn btn-primary ">บันทึก</button>
+                    {% comment %} <a type="button" class="btn btn-secondary" href="{% url 'managementFood' id=res_id %}"> ย้อนกลับ</a> {% endcomment %}
+                    </form>  
             </div>
-            <div class="custom">
-                <label class="custom-file-label" for="{{form.picture.id_for_label}}">Choose file</label>
             </div> 
-            {{ form.picture}}
-            
-        </div>
-
-        </div><button type="submit" class="btn btn-primary">บันทึก</button>
-        </form>
-    </div>
-    
-               
+</div>          
 {% endblock %}
