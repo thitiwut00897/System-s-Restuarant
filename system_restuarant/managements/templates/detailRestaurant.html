@@ -39,9 +39,9 @@
                 <th>รูปอาหาร</th>
                 <th>รายละเอียดรายการอาหาร</th>
             </tr> 
-            {% for i in food_id %}
-                <td scope="col">{{ i.picture_food }}</td>
-                <td scope="col">{{ i.food_name }}</td>
+            {% for food in food_id %}
+                <td scope="col">{{ food.picture_food }}</td>
+                <td scope="col">{{ food.food_name }}</td>
                 <td><a type="button" class="btn btn-outline-success">เลือกเมนู</a></td>
             {% endfor %} 
         </table> 

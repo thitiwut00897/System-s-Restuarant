@@ -35,24 +35,19 @@ def homepage(request):
 
 
 def detailRestaurant(request, id):
-    res_id = Restaurant.objects.get(restaurant_id=id)
-    food_id = Food.objects.get(food_id=res_id.restaurant_id)
-    list = []
-    dict = {
-        'restaurant_id': res_id.restaurant_id,
-        'restaurant_name': res_id.restaurant_name,
-        'open_time': res_id.open_time,
-        'close_time': res_id.close_time,
-        'types': res_id.types,
-        'owner': res_id.owner,
-        'picture_restaurant': res_id.picture_restaurant,
-        'food_id': food_id,
-        'food_name': food_name,
-        'picture_food': picture,
-        'price': price,
-        'restaurant': restaurant
-    }
-    list.append(dict)
+    res_id = Restaurant.objects.get(pk=id)
+    food_id = Food.objects.filter(food_id=res_id.restaurant_id)
+    list_food = []
+    for food_id in food_id:
+        dict_food = {
+            'food_id': food_id.food_id,
+            'food_name': food_id.food_name,
+            'picture_food': food_id.picture,
+            'price': food_id.price,
+            'restaurant': food_id.restaurant_id
+        }
+        list_food.append(dict_food)
+
     return render(request, 'detailRestaurant.html', context={
         'id': id,
         'food_id': list_food,
