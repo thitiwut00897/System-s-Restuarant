@@ -99,7 +99,7 @@ def addRestaurant(request):
 def editRestaurant(request, id):
     restaurant = Restaurant.objects.get(restaurant_id=id)
     if request.method == 'POST':
-        form = AddtRestaurantForm(request.POST, instance=restaurant)
+        form = AddRestaurantForm(request.POST, instance=restaurant)
         if form.is_valid():
             form.save()
             return redirect(to='management')
