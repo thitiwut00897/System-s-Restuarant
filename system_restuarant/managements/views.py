@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from classes.models import Food, Owner, Restaurant, Type, Order, Order_List
-from managements.forms import AddFoodForm, AddRestaurantForm, EditRestaurantForm
+from managements.forms import AddFoodForm, AddRestaurantForm, EditRestaurantForm, EditFoodForm
 
 
 def home(request):
@@ -14,7 +14,10 @@ def home(request):
 
 
 def management(request):
-    return render(request, template_name='managementRestaurant.html')
+    restaurant = Restaurant.objects.all()
+    return render(request, 'management.html',context={
+        'restaurant': restaurant
+    })
 
 
 def homepage(request):
@@ -63,7 +66,6 @@ def my_logout(request):
 
 
 def addRestaurant(request):
-    restaurant = Restaurant.objects.all()
     if request.method == 'POST':
         form = AddRestaurantForm(request.POST, request.FILES)
         if form.is_valid():
@@ -71,14 +73,13 @@ def addRestaurant(request):
                 type_name=request.POST.get('type_name'))
             restaurant = form.save(commit=False)
             restaurant.type_type_id = typeRestaurant
-            print(restaurant.picture_restaurant)
+            # print(restaurant.picture_restaurant)
             restaurant.save()
-            return redirect('addRestaurant')
+            return redirect('management')
     else:
         form = AddRestaurantForm()
-    return render(request, 'managementRestaurant.html', context={
-        'form': form,
-        'restaurant': restaurant
+    return render(request, 'addRestaurant.html', context={
+        'form': form
     })
 
 
@@ -88,7 +89,7 @@ def editRestaurant(request, id):
         form = EditRestaurantForm(request.POST, instance=restaurant)
         if form.is_valid():
             form.save()
-            return redirect(to='addRestaurant')
+            return redirect(to='management')
     else:
         form = EditRestaurantForm(instance=restaurant)
 
@@ -102,24 +103,32 @@ def editRestaurant(request, id):
 def deleteRestaurant(request, id):
     restaurant = Restaurant.objects.get(restaurant_id=id)
     restaurant.delete()
-    return redirect(to='addRestaurant')
+    return redirect(to='management')
 
 
-def addFood(request, id):
-    fd = Food.objects.filter(restaurant_id=id)
+def managementFood(request, id):
+    food = Food.objects.filter(restaurant_id=id)
+    return render(request, 'managementFood.html', context={
+        'id': id,
+        'food': food
+    })
+
+
+def addFood(request, res_id, food_id):
+    food = Food.objects.get(food_id=food_id)
     if request.method == 'POST':
         form = AddFoodForm(request.POST, request.FILES)
         if form.is_valid():
             food = form.save(commit=False)
             food.restaurant_id = id
             food.save()
-            return redirect('addFood', id=id)
+            return redirect('managementFood', id=res_id)
     else:
         form = AddFoodForm()
-    return render(request, 'managementFood.html', context={
+    return render(request, 'addFood.html', context={
         'form': form,
-        'id': id,
-        'food': fd
+        'id': food_id,
+        'id1': res_id
     })
 
 
@@ -130,12 +139,11 @@ def editFood(request, res_id, food_id):
             form = EditFoodForm(request.POST, instance=food)
             if form.is_valid():
                 form.save()
-                return redirect('addFood', id=res_id)
+                return redirect('managementFood', id=res_id)
     else:
         form = EditFoodForm(instance=food)
     return render(request, 'editFood.html', context={
         'form': form,
-        'food': food,
         'id': food_id,
         'id1': res_id
     })
@@ -172,7 +180,7 @@ def manageOrder(request):
 def deleteFood(request, res_id, food_id):
     food = Food.objects.get(food_id=food_id)
     food.delete()
-    return redirect(to='addFood', id=res_id)
+    return redirect(to='managementFood', id=res_id)
 
 
 def confirmOrder(request, order_id):

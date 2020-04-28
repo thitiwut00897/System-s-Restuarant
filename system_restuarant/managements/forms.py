@@ -24,11 +24,11 @@ class AddRestaurantForm(ModelForm):
             'picturerestaurant': forms.FileInput(attrs={'class': 'custom-file-input'})
         }
 
-        def clean(self):
-            cleaned_data = super().clean()
-            if(price.isdigit() == false):
-                msg = "กรุณากรอกตัวเลข"
-                self.add_error('price', msg)
+        # def clean(self):
+        #     cleaned_data = super().clean()
+        #     if(price.isdigit() == false):
+        #         msg = "กรุณากรอกตัวเลข"
+        #         self.add_error('price', msg)
 
 
 class EditRestaurantForm(ModelForm):
@@ -36,7 +36,7 @@ class EditRestaurantForm(ModelForm):
         model = Restaurant
         fields = ['restaurant_name', 'picture_restaurant',
                   'open_time', 'close_time']
-        label = {
+        labels = {
             'restaurant_name': 'ชื่อร้านอาหาร',
             'open_time': 'เวลาเปิดร้าน',
             'close_time': 'เวลาเปิดร้าน',
