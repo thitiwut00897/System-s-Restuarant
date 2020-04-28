@@ -6,8 +6,8 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from classes.models import Food, Owner, Restaurant, Type, Order, Order_List
-from managements.forms import AddFoodForm, AddRestaurantForm
-
+from managements.forms import AddFoodForm, AddRestaurantForm,UserForm,OwnerForm,CustomerForm
+from django.contrib.auth.models import User
 
 def home(request):
     return render(request, 'homepage.html')
@@ -78,6 +78,53 @@ def my_login(request):
 def my_logout(request):
     logout(request)
     return redirect(to='login')
+
+def registerOwner(request):
+    if request.method == 'POST':
+        user_form = UserForm(request.POST)
+        owner_form = OwnerForm(request.POST,request.FILES)
+        if user_form.is_valid() and owner_form.is_valid():
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
+            owner = owner_form.save()
+            owner.user_id = user.id
+            owner.save()
+            return redirect('login')
+        else:
+            print(user_form.errors,owner_form.errors)
+        
+    else:
+        user_form = UserForm()
+        owner_form = OwnerForm()
+    return render(request,template_name='register.html',context={
+        'user_form':user_form,
+        'owner_form':owner_form,
+        'owner':'owner'
+    })
+def registerCustomer(request):
+    if request.method == 'POST':
+        user_form = UserForm(data=request.POST)
+        customer_form = CustomerForm(data=request.POST)
+        if user_form.is_valid() and customer_form.is_valid():
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
+            customer = customer_form.save()
+            customer.user_id = user.id
+            customer.save()
+            return redirect('login')
+        else:
+            print(user_form.errors,customer_form.errors)
+        
+    else:
+        user_form = UserForm()
+        customer_form = CustomerForm()
+    return render(request,template_name='register.html',context={
+        'user_form':user_form,
+        'customer_form':customer_form,
+        'customer':'customer'
+    })
 
 
 def addRestaurant(request):
@@ -188,6 +235,46 @@ def manageOrder(request):
         'orders': list,
         'foods': list2
     })
+
+def manageStateOrder(request):
+    order = Order.objects.filter(state__isnull=False)
+    order_list = Order_List.objects.all()
+    list = []
+    list2 = []
+    for od in order:
+        dict = {
+            'id': od.order_id,
+            'time': od.date_time,
+            'total_price': od.total_price,
+            'state':od.state
+        }
+        list.append(dict)
+
+    for ol in order_list:
+        dict2 = {
+            'id': ol.order_id,
+            'food': Food.objects.get(pk=ol.food_id).food_name,
+            'price': ol.price,
+            'unit': ol.unit
+        }
+        list2.append(dict2)
+
+    return render(request, 'manageStateOrder.html', context={
+        'orders': list,
+        'foods': list2
+    })
+
+def changeStateToDoing(request, order_id):
+    order = Order.objects.get(pk=order_id)
+    order.state = "Doing"
+    order.save()
+    return redirect(to='manageStateOrder')
+
+def changeStateToDone(request, order_id):
+    order = Order.objects.get(pk=order_id)
+    order.state = "Done"
+    order.save()
+    return redirect(to='manageStateOrder')
 
 
 def deleteFood(request, res_id, food_id):

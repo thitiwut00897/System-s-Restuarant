@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
-from classes.models import Restaurant, Food
-
+from classes.models import Customer, Food, Owner, Restaurant
+from django.contrib.auth.models import User
 # from crispy_forms.helper import FormHelper
 # from django.validator import validate_slug
 
@@ -55,3 +55,43 @@ class AddFoodForm(ModelForm):
         #
 
 
+class UserForm(ModelForm):
+    class Meta:
+        model = User 
+        fields  = ['username','password','first_name','last_name','email']
+        labels = {
+            'username': 'Username',
+            'password': 'Password',
+            'first_name': 'ชื่อ',
+            'last_name': 'นามสกุล',
+            'email': 'อีเมล'
+        }
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'password': forms.PasswordInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+        
+class OwnerForm(ModelForm):
+    class Meta:
+        model = Owner
+        fields  = ['picture_owner']
+        labels = {
+            'picture_owner': 'รูปภาพ'
+        }
+        widgets = {
+            'picture_owne': forms.FileInput(attrs={'class': 'custom-file-input'})
+        }
+
+class CustomerForm(ModelForm):
+    class Meta:
+        model = Customer
+        fields  = ['faculty']
+        labels = {
+            'faculty': 'คณะ'
+        }
+        widgets = {
+            'faculty': forms.TextInput(attrs={'class': 'form-control'})
+        }
