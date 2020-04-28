@@ -165,7 +165,7 @@ def editRestaurant(request, id):
 def deleteRestaurant(request, id):
     restaurant = Restaurant.objects.get(restaurant_id=id)
     restaurant.delete()
-    return redirect(to='management')
+    return redirect('management')
 
 
 def managementFood(request, id):
