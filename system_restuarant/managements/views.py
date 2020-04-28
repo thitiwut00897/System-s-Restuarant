@@ -1,11 +1,12 @@
 from builtins import object
+from fnmatch import filter
 from gc import get_objects
 
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from classes.models import Food, Owner, Restaurant, Type, Order, Order_List
+from classes.models import Food, Order, Order_List, Owner, Restaurant, Type
 from managements.forms import AddFoodForm, AddRestaurantForm
 
 
@@ -36,27 +37,23 @@ def homepage(request):
 
 def detailRestaurant(request, id):
     res_id = Restaurant.objects.get(restaurant_id=id)
-    food_id = Food.objects.get(food_id=res_id.restaurant_id)
-    list = []
-    dict = {
-        'restaurant_id': res_id.restaurant_id,
-        'restaurant_name': res_id.restaurant_name,
-        'open_time': res_id.open_time,
-        'close_time': res_id.close_time,
-        'types': res_id.types,
-        'owner': res_id.owner,
-        'picture_restaurant': res_id.picture_restaurant,
-        'food_id': food_id,
-        'food_name': food_name,
-        'picture_food': picture,
-        'price': price,
-        'restaurant': restaurant
-    }
-    list.append(dict)
+    food_id = Food.objects.filter(food_id=res_id.restaurant_id)
+    list_res = []
+    list_food = []
+    for food_id in food_id:
+        dict_food = {
+            'food_id': food_id.food_id,
+            'food_name': food_id.food_name,
+            'picture_food': food_id.picture,
+            'price': food_id.price,
+            'restaurant': food_id.restaurant
+        }
+        list_food.append(dict_food)
+
     return render(request, 'detailRestaurant.html', context={
         'id': id,
-        'food_id': food_id,
-        'res_id': list
+        'food_id': list_food,
+        'res_id': res_id
     })
 
 

@@ -27,9 +27,7 @@
                 <a type="button" class="btn btn-info" >สถานะออเดอร์</a>
             {% else  %}
                 <a type="button" class="btn btn-info" data-target="#demo{{food_name}}" href="{% url 'detailRestaurant' id=id %}">แสดงรายการอาหาร</a>
-                {% for j in food_id %}
-                    {{ j.food_name }}
-                {% endfor %}
+                    {{ food_name }}
             {% endif %}        
         </div>
     </div>
