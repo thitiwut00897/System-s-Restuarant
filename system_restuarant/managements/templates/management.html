@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="bh">
+    <div class="nm">
         <div class="row">
-            <div class="col-md-10"> <h2>จัดการร้านอาหาร</h2></div>
-            <div class="col-md-2"><a type="button" class="btn btn-secondary" href="{% url 'addRestaurant'%}">เพิ่มร้านอาหาร</a> </div>
+            <div class="col-md-10"> <h2>ร้านอาหาร</h2></div>
+            <div class="col-md-2"><a type="button" class="btn btn-outline-dark" href="{% url 'addRestaurant'%}">เพิ่มร้านอาหาร</a> </div>
         </div>
        <br>
        <table class="table">
@@ -20,7 +20,7 @@
                     <td><center>{% if i.picture_restaurant %} <img src="{{ i.picture_restaurant.url }}">{% endif %}</center></td>
                     <td><center>{{ i.restaurant_name }}</center></td>
                     <td><center>
-                        <a type="button" class="btn btn-info" href="{% url 'managementFood' id=i.restaurant_id %}">จัดการรายการอาหาร</a>
+                        <a type="button" class="btn btn-info" href="{% url 'managementFood' id=i.restaurant_id %}">รายการอาหาร</a>
                         <a type="button" class="btn btn-warning" href="{% url 'editRestaurant' id=i.restaurant_id %}">แก้ไขร้านอาหาร</a>
                         <a type="button" class="btn btn-danger" href="{% url 'deleteRestaurant' id=i.restaurant_id %}">ลบร้านอาหาร</a></center>
                     </td> 

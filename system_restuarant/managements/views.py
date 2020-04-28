@@ -15,7 +15,7 @@ def home(request):
 
 def management(request):
     restaurant = Restaurant.objects.all()
-    return render(request, 'management.html', context={
+    return render(request, 'management.html',context={
         'restaurant': restaurant
     })
 
@@ -27,33 +27,16 @@ def homepage(request):
         dict = {
             'restaurant_id': check.restaurant_id,
             'restaurant_name': check.restaurant_name,
-            'picture_restaurant': check.picture_restaurant
-        }
+            'picture_restaurant': check.picture_restaurant}
         list.append(dict)
-    return render(request, 'homepage.html', context={
-        'check': list
-    })
+    return render(request, 'homepage.html',
+                  context={'check': list}
+                  )
 
 
-def detailRestaurant(request, id):
-    res_id = Restaurant.objects.get(restaurant_id=id)
+def detailRestaurant(request):
     restaurant = Restaurant.objects.all()
-    list = []
-    for check in restaurant:
-        dict = {
-            'restaurant_id': check.restaurant_id,
-            'restaurant_name': check.restaurant_name,
-            'open_time': check.open_time,
-            'close_time': check.close_time,
-            'types': check.types,
-            'owner': check.owner,
-            'picture_restaurant': check.picture_restaurant,
-        }
-        list.append(dict)
-    return render(request, 'detailRestaurant.html', context={
-        'id': id,
-        'check': list
-    })
+    return render(request, 'detailRestaurant.html', context={'restaurant': restaurant})
 
 
 def my_login(request):
@@ -66,7 +49,7 @@ def my_login(request):
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            return redirect('homepage')
+            return redirect('home')
 
         else:
             context['username'] = username
@@ -130,8 +113,7 @@ def managementFood(request, id):
     })
 
 
-def addFood(request, res_id, food_id):
-    food = Food.objects.get(food_id=food_id)
+def addFood(request, res_id):
     if request.method == 'POST':
         form = AddFoodForm(request.POST, request.FILES)
         if form.is_valid():
@@ -143,7 +125,6 @@ def addFood(request, res_id, food_id):
         form = AddFoodForm()
     return render(request, 'addFood.html', context={
         'form': form,
-        'id': food_id,
         'id1': res_id
     })
 
@@ -166,7 +147,7 @@ def editFood(request, res_id, food_id):
 
 
 def manageOrder(request):
-    order = Order.objects.filter(state__isnull=True)
+    order = Order.objects.all()
     order_list = Order_List.objects.all()
     list = []
     list2 = []
@@ -195,14 +176,13 @@ def manageOrder(request):
 
 def deleteFood(request, res_id, food_id):
     food = Food.objects.get(food_id=food_id)
-    food.delete()
+    food.delete()                                                                         
     return redirect(to='managementFood', id=res_id)
 
 
 def confirmOrder(request, order_id):
     order = Order.objects.get(pk=order_id)
     order.state = "Queuing"
-    order.save()
     return redirect(to='manageOrder')
 
 
