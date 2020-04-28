@@ -107,6 +107,7 @@ def editRestaurant(request, id):
     restaurant = Restaurant.objects.get(restaurant_id=id)
     if request.method == 'POST':
         form = AddRestaurantForm(request.POST, instance=restaurant)
+        # restaurant.objects.filter(picture_restaurant=request.restaurant).update(picture_restaurant = picture_restaurant)
         if form.is_valid():
             form.save()
             return redirect(to='management')
