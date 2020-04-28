@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class='container'>
+        <h1>จัดการสถานะออเดอร์</h1>
+        <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">ลำดับที่</th>
+            <th scope="col">รหัสออเดอร์</th>
+            <th scope="col">วัน/เวลาที่สั่ง</th>
+            <th scope="col">จัดการออเดอร์</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{order.id}}</td>
+                    <td>{{ order.time}}</td>
+                    <td><Button type="button" data-toggle="collapse" data-target="#demo{{order.id}}" class="btn btn-info" onclick=''>คลิ๊กแสดงรายละเอียด</button></td>
+                </tr>
+                
+                <tr >
+                <td colspan="6" class="collapse" id="demo{{order.id}}">
+                    <div class="collapse" id="demo{{order.id}}"> 
+                        {% for food in foods %}
+                            {% if order.id == food.id %}
+                                อาหาร: {{food.food}} จำนวน: {{food.unit}} ราคา {{food.price}}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div> 
+                    <div>
+                    <a class="btn btn-success" href="{% url 'confirmOrder' order_id=order.id%}">รับออเดอร์</a>
+                    <a class="btn btn-danger" href="{% url 'cancelOrder' order_id=order.id%}">ยกเลิกออเดอร์</a>
+                    </div>
+                </td>
+                </tr>
+                        
+                    
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+    
+{% endblock content %}
