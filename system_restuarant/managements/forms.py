@@ -14,7 +14,7 @@ class AddRestaurantForm(ModelForm):
         labels = {
             'restaurant_name': 'ชื่อร้านอาหาร',
             'open_time': 'เวลาเปิดร้าน',
-            'close_time': 'เวลาเปิดร้าน',
+            'close_time': 'เวลาปิดร้าน',
             'picture_restaurant': 'รูปภาพร้านอาหาร'
         }
         widgets = {
