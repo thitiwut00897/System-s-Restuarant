@@ -16,9 +16,9 @@
                                 <center><img src="{{ i.picture_restaurant.url }}" width="200" height="150"></center>
                                 <br>
                                 {% if user.is_authenticated %}
-                                    <center><a type="button" class="btn btn-link" href="{% url 'detailRestaurant' %}"> หน้าร้าน </a></center>
+                                    <center><a type="button" class="btn btn-link" href="{% url 'detailRestaurant' id=i.restaurant_id %}"> หน้าร้าน </a></center>
                                 {% else %}
-                                    <center><a type="button" class="btn btn-link" href="{% url 'detailRestaurant' %}"> ดูรายละเอียดร้าน </a></center>
+                                    <center><a type="button" class="btn btn-link" href="{% url 'detailRestaurant' id=i.restaurant_id %}"> ดูรายละเอียดร้าน </a></center>
                                 {% endif %}
                                 </div>
                             {% endif %} 

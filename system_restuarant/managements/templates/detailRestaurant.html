@@ -1,9 +1,48 @@
 {% extends "base.html" %}
 {% block content %}
-    <form method="POST" action="{% url 'detailRestaurant' %}" enctype="multipart/form-data" >
+    <form method="POST" action="{% url 'detailRestaurant' id=id %}" enctype="multipart/form-data" >
 
-<div>
-    hello
+<div class="container">
+    {% for i in check %}
+    <div class="row">
+        <div class="bg-light">
+                <div class="m-3 bg-light">
+                {% comment %} {% for j in i.restaurant_id %}
+                    {% if j == i.restaurant_id %} {% endcomment %}
+                        {% if i.picture_restaurant %}
+                           <div class="mt-1">
+                                <center><img src="{{ i.picture_restaurant.url }}" width="200" height="150"></center>
+                           </div>
+                        {% endif %}
+                   {% comment %} {% endif %}
+                {% endfor %} {% endcomment %}
+               </div>
+        </div>
+    <div>
+        <h6>รหัสร้านอาหาร: {{ i.restaurant_id }}</h6>
+        <h6>ชื่อร้านอาหาร: {{ i.restaurant_name }}</h6>
+        <h6>Open-Time: {{ i.open_time }}</h6>
+        <h6>Close-Time: {{ i.close_time }}</h6>
+        <h6>ประเภทของร้าน: <center>{{ i.types }}</center></h6>
+        {% comment %} <h6>เจ้าของร้าน: <center>{{ i.owner }}</center></h6> {% endcomment %}
+    </div>
+    {% endfor %}
+    <div class="container">
+        {% if user.is_authenticated %}
+            <div class="row">
+                <div class="col-sm">
+                    <a type="button" class="btn btn-info" href="{% url ''  %}">จัดการออเดอร์</a>
+                    <a type="button" class="btn btn-info" href="{% url ''  %}">สถานะออเดอร์</a>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-sm">
+                    <a type="button" class="btn btn-info" href="{% url ''  %}">แสดงรายการอาหาร</a>
+                </div>
+            </div>
+    </div>
+
 </div>
 
 {% endblock %} 
