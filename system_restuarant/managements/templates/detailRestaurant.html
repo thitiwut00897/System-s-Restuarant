@@ -19,7 +19,7 @@
         <h6>Open-Time: {{ res_id.open_time }}</h6>
         <h6>Close-Time: {{ res_id.close_time }}</h6>
         <h6>ประเภทของร้าน: {{ res_id.types }}</h6>
-        {% comment %} <h6>เจ้าของร้าน: {{ res_id.owner }}</h6> {% endcomment %}
+        <h6>เจ้าของร้าน: {{ res_id.owner }}</h6>
         <div class="row-span mt-3">
             {% if user.is_authenticated %}
                 <a type="button" class="btn btn-info" href="{% url 'manageOrder' %}">จัดการออเดอร์</a>
@@ -28,7 +28,6 @@
             <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#food_name" aria-expanded="false" aria-controls="collapseExample" class="btn btn-info" href="{% url 'detailRestaurant' id=id %}">
                 แสดงรายการอาหาร
             </button>
-                {% comment %} <a type="button" data-toggle="collapse" aria-expanded="false" aria-controls="food_name" class="btn btn-info" href="{% url 'detailRestaurant' id=id %}">แสดงรายการอาหาร</a> {% endcomment %}
             {% endif %}        
         </div>
     </div>
@@ -41,7 +40,7 @@
                 <th>รายละเอียดรายการอาหาร</th>
             </tr>
             {% for i in food_id %}
-                <td scope="col">{{ i.picture_food }}</td>
+                <td scope="col">{{ i.picture_food}}</td>
                 <td scope="col">{{ i.food_name }}</td>
                 <td><a type="button" class="btn btn-outline-success" >เลือกเมนู</a></td>
             {% endfor %}

@@ -52,7 +52,7 @@ def detailRestaurant(request, id):
 
     return render(request, 'detailRestaurant.html', context={
         'id': id,
-        'food_id': list_food,
+        'food': list_food,
         'res_id': res_id
     })
 
