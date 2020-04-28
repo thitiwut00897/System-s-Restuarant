@@ -27,14 +27,28 @@ def homepage(request):
             'picture_restaurant': check.picture_restaurant
         }
         list.append(dict)
-    return render(request, 'homepage.html',
-                  context={'check': list}
-                  )
+    return render(request, 'homepage.html', context={
+        'check': list
+    })
 
 
 def detailRestaurant(request):
     restaurant = Restaurant.objects.all()
-    return render(request, 'detailRestaurant.html', context={'restaurant': restaurant})
+    list = []
+    for check in restaurant:
+        dict = {
+            'restaurant_id': check.restaurant_id,
+            'restaurant_name': check.restaurant_name,
+            'open_time': check.open_time,
+            'close_time': check.close_time,
+            'types': check.types,
+            'owner': check.owner,
+            'picture_restaurant': check.picture_restaurant
+        }
+        list.append(dict)
+    return render(request, 'detailRestaurant.html', context={
+        'check': list
+    })
 
 
 def my_login(request):
