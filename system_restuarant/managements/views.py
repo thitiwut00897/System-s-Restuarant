@@ -132,7 +132,7 @@ def addFood(request, res_id):
         form = AddFoodForm(request.POST, request.FILES)
         if form.is_valid():
             food = form.save(commit=False)
-            food.restaurant_id = id
+            food.restaurant_id = res_id
             food.save()
             return redirect('managementFood', id=res_id)
     else:

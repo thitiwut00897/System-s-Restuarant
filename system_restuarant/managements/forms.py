@@ -46,7 +46,7 @@ class EditRestaurantForm(ModelForm):
             'restaurant_name': forms.TextInput(attrs={'class': 'form-control'}),
             'open_time': forms.TextInput(attrs={'class': 'form-control'}),
             'close_time': forms.TextInput(attrs={'class': 'form-control'}),
-            'picturerestaurant': forms.FileInput(attrs={'class': 'custom-file-input'})
+            'picture_restaurant': forms.FileInput(attrs={'class': 'custom-file-input'})
         }
 
 
