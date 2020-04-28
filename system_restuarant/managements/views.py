@@ -150,7 +150,7 @@ def editFood(request, res_id, food_id):
 
 
 def manageOrder(request):
-    order = Order.objects.all()
+    order = Order.objects.filter(state__isnull=True) 
     order_list = Order_List.objects.all()
     list = []
     list2 = []
@@ -186,6 +186,7 @@ def deleteFood(request, res_id, food_id):
 def confirmOrder(request, order_id):
     order = Order.objects.get(pk=order_id)
     order.state = "Queuing"
+    order.save()
     return redirect(to='manageOrder')
 
 
