@@ -14,7 +14,7 @@
         <tbody>
             {% for order in orders %}
                 <tr>
-                    <th scope="row">{{order.id}}</th>
+                    <th scope="row">{{forloop.counter}}</th>
                     <td>{{order.id}}</td>
                     <td>{{ order.time}}</td>
                     <td><Button type="button" data-toggle="collapse" data-target="#demo{{order.id}}" class="btn btn-info" onclick=''>คลิ๊กแสดงรายละเอียด</button></td>
