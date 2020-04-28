@@ -103,12 +103,12 @@ def addRestaurant(request):
 def editRestaurant(request, id):
     restaurant = Restaurant.objects.get(restaurant_id=id)
     if request.method == 'POST':
-        form = EditRestaurantForm(request.POST, instance=restaurant)
+        form = AddRestaurantForm(request.POST, instance=restaurant)
         if form.is_valid():
             form.save()
             return redirect(to='management')
     else:
-        form = EditRestaurantForm(instance=restaurant)
+        form = AddRestaurantForm(instance=restaurant)
 
     return render(request, 'editRestaurant.html', context={
         'form': form,
@@ -151,12 +151,12 @@ def editFood(request, res_id, food_id):
     food = Food.objects.get(food_id=food_id)
     if request.method == 'POST':
         if food.restaurant_id == res_id:
-            form = EditFoodForm(request.POST, instance=food)
+            form = AddFoodForm(request.POST, instance=food)
             if form.is_valid():
                 form.save()
                 return redirect('managementFood', id=res_id)
     else:
-        form = EditFoodForm(instance=food)
+        form = AddFoodForm(instance=food)
     return render(request, 'editFood.html', context={
         'form': form,
         'id': food_id,
