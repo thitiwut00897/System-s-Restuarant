@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="nm">
-        <div class="row">
-            <div class="col-md-9"><h2>รายการอาหาร</h2></div>
-            <div class="col-md-3">
-            <a type="button" class="btn btn-outline-success" href="{% url 'addFood' res_id=id%}">เพิ่มร้านอาหาร</a>
-            <a type="button" class="btn btn-outline-dark" href="{% url 'management'%}">ย้อนกลับ</a> </div>
+        <h1>รายการอาหาร</h1>
+        <div class="text-right">
+            <a type="button" class="btn btn-outline-success" href="{% url 'addFood' res_id=id%}">เพิ่มอาหาร</a>
+            <a type="button" class="btn btn-outline-dark" href="{% url 'management'%}">ย้อนกลับ</a> 
         </div>
         <br>
         <table class="table">
@@ -24,8 +23,8 @@
                     <td><center>{{ i.food_name }}</center></td>
                     <td><center>{{ i.price }} Baht</center></td>
                     <td><center>
-                        <a type="button" class="btn btn-outline-warning" href="{% url 'editFood' res_id=id food_id=i.food_id%}">แก้ไขร้านอาหาร</a>
-                        <a type="button" class="btn btn-outline-danger" href="{% url 'deleteFood' res_id=id food_id=i.food_id %}">ลบร้านอาหาร</a></center>
+                        <a type="button" class="btn btn-outline-warning" href="{% url 'editFood' res_id=id food_id=i.food_id%}">แก้ไขอาหาร</a>
+                        <a type="button" class="btn btn-outline-danger" href="{% url 'deleteFood' res_id=id food_id=i.food_id %}">ลบอาหาร</a></center>
                     </center></td> 
                 </tr>
             {% endfor %}

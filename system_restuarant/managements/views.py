@@ -86,7 +86,6 @@ def addRestaurant(request):
                 type_name=request.POST.get('type_name'))
             restaurant = form.save(commit=False)
             restaurant.type_type_id = typeRestaurant
-            # print(restaurant.picture_restaurant)
             restaurant.save()
             return redirect('management')
     else:
