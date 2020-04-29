@@ -63,10 +63,10 @@ def profile(request):
     return render(request, 'profile.html')
 
 def editProfile(request):
-    return render(request, 'profile.html')
+    return render(request, 'editProfile.html')
 
 def changePassword(request):
-    return render(request, 'profile.html')
+    return render(request, 'changePassword.html')
 
 
 

@@ -9,10 +9,6 @@ from django.contrib.auth.models import User
 class AddRestaurantForm(ModelForm):
     class Meta:
         model = Restaurant
-        OPTIONS =[
-            (),
-            
-        ]
         fields = ['restaurant_name', 'picture_restaurant',
                   'open_time', 'close_time']
         labels = {
