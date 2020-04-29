@@ -1,13 +1,16 @@
 from builtins import object
 from gc import get_objects
+from urllib.request import Request
 
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from classes.models import Food, Owner, Restaurant, Type, Order, Order_List
-from managements.forms import AddFoodForm, AddRestaurantForm,UserForm,OwnerForm,CustomerForm
-from django.contrib.auth.models import User
+from classes.models import Food, Order, Order_List, Owner, Restaurant, Type
+from managements.forms import (AddFoodForm, AddRestaurantForm, CustomerForm,
+                               OwnerForm, UserForm)
+
 
 def home(request):
     return render(request, 'homepage.html')
@@ -22,16 +25,43 @@ def management(request):
 
 def homepage(request):
     restaurant = Restaurant.objects.all()
-    list = []
+    search = request.POST.get('search')
+    list = []  # เก็บร้านอาหารทั้งหมด
     for check in restaurant:
         dict = {
             'restaurant_id': check.restaurant_id,
             'restaurant_name': check.restaurant_name,
             'picture_restaurant': check.picture_restaurant}
         list.append(dict)
-    return render(request, 'homepage.html',
-                  context={'check': list}
-                  )
+
+    if request.method == "POST":
+        list = []
+        find = Restaurant.objects.filter(
+            restaurant_name__icontains=search
+        )
+        print(find)
+        for check in find:
+            print(check)
+            dict = {
+                'restaurant_id': check.restaurant_id,
+                'restaurant_name': check.restaurant_name,
+                'picture_restaurant': check.picture_restaurant
+            }
+            list.append(dict)
+        print(list)
+
+        return render(request, 'homepage.html', context={
+            'search': search,
+            'restaurant': restaurant,
+            'find': find,
+            'check': list
+
+        })
+
+    return render(request, 'homepage.html', context={
+        # 'restaurant': restaurant,
+        'check': list
+    })
 
 
 def detailRestaurant(request, id):
@@ -79,10 +109,11 @@ def my_logout(request):
     logout(request)
     return redirect(to='login')
 
+
 def registerOwner(request):
     if request.method == 'POST':
         user_form = UserForm(request.POST)
-        owner_form = OwnerForm(request.POST,request.FILES)
+        owner_form = OwnerForm(request.POST, request.FILES)
         if user_form.is_valid() and owner_form.is_valid():
             user = user_form.save()
             user.set_password(user.password)
@@ -92,16 +123,18 @@ def registerOwner(request):
             owner.save()
             return redirect('login')
         else:
-            print(user_form.errors,owner_form.errors)
-        
+            print(user_form.errors, owner_form.errors)
+
     else:
         user_form = UserForm()
         owner_form = OwnerForm()
-    return render(request,template_name='register.html',context={
-        'user_form':user_form,
-        'owner_form':owner_form,
-        'owner':'owner'
+    return render(request, template_name='register.html', context={
+        'user_form': user_form,
+        'owner_form': owner_form,
+        'owner': 'owner'
     })
+
+
 def registerCustomer(request):
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
@@ -115,15 +148,15 @@ def registerCustomer(request):
             customer.save()
             return redirect('login')
         else:
-            print(user_form.errors,customer_form.errors)
-        
+            print(user_form.errors, customer_form.errors)
+
     else:
         user_form = UserForm()
         customer_form = CustomerForm()
-    return render(request,template_name='register.html',context={
-        'user_form':user_form,
-        'customer_form':customer_form,
-        'customer':'customer'
+    return render(request, template_name='register.html', context={
+        'user_form': user_form,
+        'customer_form': customer_form,
+        'customer': 'customer'
     })
 
 
@@ -148,7 +181,8 @@ def addRestaurant(request):
 def editRestaurant(request, id):
     restaurant = Restaurant.objects.get(restaurant_id=id)
     if request.method == 'POST':
-        form = AddRestaurantForm(request.POST, request.FILES, instance=restaurant)
+        form = AddRestaurantForm(
+            request.POST, request.FILES, instance=restaurant)
         if form.is_valid():
             form.save()
             return redirect(to='management')
@@ -236,6 +270,7 @@ def manageOrder(request):
         'foods': list2
     })
 
+
 def manageStateOrder(request):
     order = Order.objects.filter(state__isnull=False)
     order_list = Order_List.objects.all()
@@ -246,7 +281,7 @@ def manageStateOrder(request):
             'id': od.order_id,
             'time': od.date_time,
             'total_price': od.total_price,
-            'state':od.state
+            'state': od.state
         }
         list.append(dict)
 
@@ -264,11 +299,13 @@ def manageStateOrder(request):
         'foods': list2
     })
 
+
 def changeStateToDoing(request, order_id):
     order = Order.objects.get(pk=order_id)
     order.state = "Doing"
     order.save()
     return redirect(to='manageStateOrder')
+
 
 def changeStateToDone(request, order_id):
     order = Order.objects.get(pk=order_id)
@@ -295,13 +332,21 @@ def cancelOrder(request, order_id):
     return redirect(to='manageOrder')
 
 
-def searchRestaurant(request):
-    search = request.GET.get('search', '')
-    restaurant = Restaurant.objects.all()
-    find = Restaurant.objects.filter(
-        name__icontain=search
-    )
-    return render(request, template_name='homepage', context={
-        'search': search,
-        'restaurant': restaurant,
-        'find': find})
+# def searchRestaurant(request):
+#     search = request.POST.get('search')
+#     restaurant = Restaurant.objects.all()
+#     if method.Request == POST:
+#         find = Restaurant.objects.filter(
+#             restaurant_name__icontain=search
+#         )
+#         print(find)
+#         return render(request, 'homepage', context={
+#             'restaurant': restaurant
+#         })
+
+#     print(search)
+
+#     return render(request, template_name='homepage', context={
+#         'search': search,
+#         # 'restaurant': restaurant,
+#         'find': find})
