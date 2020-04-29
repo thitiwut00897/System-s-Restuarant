@@ -9,6 +9,10 @@ from django.contrib.auth.models import User
 class AddRestaurantForm(ModelForm):
     class Meta:
         model = Restaurant
+        OPTIONS =[
+            (),
+            
+        ]
         fields = ['restaurant_name', 'picture_restaurant',
                   'open_time', 'close_time']
         labels = {
@@ -18,17 +22,25 @@ class AddRestaurantForm(ModelForm):
             'picture_restaurant': 'รูปภาพร้านอาหาร'
         }
         widgets = {
-            'restaurant_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'open_time': forms.TextInput(attrs={'class': 'form-control'}),
-            'close_time': forms.TextInput(attrs={'class': 'form-control'}),
+            'restaurant_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder' : 'ชื่อร้านอาหาร'
+                }),
+            'open_time': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder' : '00:00'}),
+            'close_time': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder' : '00:00'
+            }),
             'picture_restaurant': forms.FileInput(attrs={'class': 'custom-file-input'})
         }
 
-        def clean(self):
-            cleaned_data = super().clean()
-            if(price.isdigit() == false):
-                msg = "กรุณากรอกตัวเลข"
-                self.add_error('price', msg)
+        # def clean(self):
+        #     cleaned_data = super().clean()
+        #     if(price.isdigit() == false):
+        #         msg = "กรุณากรอกตัวเลข"
+        #         self.add_error('price', msg)
 
 
 
@@ -42,8 +54,12 @@ class AddFoodForm(ModelForm):
             'picture': 'รูปร้านอาหาร'
         }
         widgets = {
-            'food_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'price': forms.TextInput(attrs={'class': 'form-control'}),
+            'food_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder' : 'ชื่อร้านอาหาร'}),
+            'price': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder' : '00.0'}),
             'picture': forms.FileInput(attrs={'class': 'custom-file-input'})
         }
         # def clean(self):
