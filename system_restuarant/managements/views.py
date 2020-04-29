@@ -212,10 +212,10 @@ def cancelOrder(request, order_id):
 def searchRestaurant(request):
     search = request.GET.get('search', '')
     restaurant = Restaurant.objects.all()
-    findres = Restaurant.objects.filter(
+    find = Restaurant.objects.filter(
         name__icontain=search
     )
-    return render(request, '.html', context={
+    return render(request, template_name='homepage', context={
         'search': search,
         'restaurant': restaurant,
-        'findres': findres})
+        'find': find})
