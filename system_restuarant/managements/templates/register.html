@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="nm" >
+    <div class="card">
+    <div class="card-header">
+        <h2>สมัครสมาชิก</h2>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{% url 'registerOwner' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if owner %}
+                {{ user_form.as_p }}
+                {{ owner_form.as_p }}
+            {% elif customer %}
+                {{ user_form.as_p }}
+                {{ customer_form.as_p }}
+            {% endif %}
+            <button class='btn btn-dark' type='submit'>สมัครสมาชิก</button>
+            </form> 
+    </div>
+    </div>
+</div>
+{% endblock %}
+
+
