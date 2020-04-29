@@ -62,23 +62,23 @@ def homepage(request):
 
 
 def detailRestaurant(request, id):
-    res_id = Restaurant.objects.get(pk=id)
-    food_id = Food.objects.filter(food_id=res_id.restaurant_id)
-    list_food = []
-    for food_id in food_id:
-        dict_food = {
-            'food_id': food_id.food_id,
-            'food_name': food_id.food_name,
-            'picture_food': food_id.picture,
-            'price': food_id.price,
-            'restaurant': food_id.restaurant_id
+    res = Restaurant.objects.get(pk=id)
+    food = Food.objects.filter(restaurant_id=res.restaurant_id)
+    foods = []
+    for f in food:
+        dict = {
+            'food_id': f.food_id,
+            'food_name': f.food_name,
+            'picture_food': f.picture,
+            'price': f.price,
+            'restaurant': f.restaurant_id
         }
-        list_food.append(dict_food)
+        foods.append(dict)
 
     return render(request, 'detailRestaurant.html', context={
         'id': id,
-        'food_id': list_food,
-        'res_id': res_id
+        'foods': foods,
+        'restaurant': res
     })
 
 
@@ -294,8 +294,8 @@ def editFood(request, res_id, food_id):
     })
 
 
-def manageOrder(request):
-    order = Order.objects.all()
+def manageOrder(request,id):
+    order = Order.objects.filter(restaurant_id=id,state="SendRequest")
     order_list = Order_List.objects.all()
     list = []
     list2 = []
@@ -322,8 +322,8 @@ def manageOrder(request):
     })
 
 
-def manageStateOrder(request):
-    order = Order.objects.filter(state__isnull=False)
+def manageStateOrder(request,id):
+    order = Order.objects.filter(Q(state="Doing") | Q(state="Queuing") | Q(state="Done"),restaurant_id=id)
     order_list = Order_List.objects.all()
     list = []
     list2 = []
@@ -332,7 +332,7 @@ def manageStateOrder(request):
             'id': od.order_id,
             'time': od.date_time,
             'total_price': od.total_price,
-            'state': od.state
+            'state':od.state
         }
         list.append(dict)
 
@@ -351,18 +351,17 @@ def manageStateOrder(request):
     })
 
 
-def changeStateToDoing(request, order_id):
+def changeStateToDoing(request, order_id,res_id):
     order = Order.objects.get(pk=order_id)
     order.state = "Doing"
     order.save()
-    return redirect(to='manageStateOrder')
+    return redirect('manageStateOrder', id=res_id)
 
-
-def changeStateToDone(request, order_id):
+def changeStateToDone(request, order_id,res_id):
     order = Order.objects.get(pk=order_id)
     order.state = "Done"
     order.save()
-    return redirect(to='manageStateOrder')
+    return redirect('manageStateOrder', id=res_id)
 
 
 def deleteFood(request, res_id, food_id):
@@ -371,16 +370,92 @@ def deleteFood(request, res_id, food_id):
     return redirect(to='managementFood', id=res_id)
 
 
-def confirmOrder(request, order_id):
+def confirmOrder(request, order_id,res_id):
     order = Order.objects.get(pk=order_id)
     order.state = "Queuing"
-    return redirect(to='manageOrder')
+    return redirect('manageOrder', id=res_id)
 
 
-def cancelOrder(request, order_id):
+def cancelOrder(request, order_id,res_id):
     order = Order.objects.get(pk=order_id)
     order.delete()
-    return redirect(to='manageOrder')
+    return redirect('manageOrder', id=res_id)
+
+def selectFood(request, id,order_id):
+    order = Order.objects.get(pk=order_id)
+    order_list = Order_List.objects.filter(order_id=order_id)
+    order_lists = []
+    total_price = 0
+    for ol in order_list:
+        dict = {
+            'id': ol.list_no,
+            'food_name': Food.objects.get(pk=ol.food_id).food_name,
+            'unit': ol.unit,
+            'price':ol.price*ol.unit
+        }
+        total_price += ol.price*ol.unit
+        order_lists.append(dict)
+
+    order.total_price = total_price
+    order.save()
+
+    res = Restaurant.objects.get(pk=id)
+    food = Food.objects.filter(restaurant_id=res.restaurant_id)
+    foods = []
+    for f in food:
+        dict = {
+            'food_id': f.food_id,
+            'food_name': f.food_name,
+            'picture_food': f.picture,
+            'price': f.price,
+            'restaurant': f.restaurant_id
+        }
+        foods.append(dict)
+
+    return render(request, 'detailRestaurant.html', context={
+        'id': id,
+        'foods': foods,
+        'restaurant': res,
+        'order':order,
+        'order_lists':order_lists
+    })
+
+def addNewOrder_List(request,user_id,res_id,food_id):
+    unit = request.GET.get("unit")
+    foodAdd = Food.objects.get(pk=food_id)
+    order_list = Order_List(unit=unit,price=foodAdd.price,food_id=foodAdd.food_id)
+    order_list.save()
+    order = Order(total_price=order_list.price,customer_id=user_id,restaurant_id=res_id)
+    order.save()
+    order_list.order_id = order.order_id
+    order_list.save()
+    return redirect('selectFood', id=res_id,order_id=order.order_id)
+
+def addOrder_List(request,user_id,res_id,food_id,order_id):
+    unit = request.GET.get("unit")
+    foodAdd = Food.objects.get(pk=food_id)
+    order_list = Order_List(unit=unit,price=foodAdd.price,food_id=foodAdd.food_id,order_id=order_id)
+    order_list.save()
+    return redirect('selectFood', id=res_id,order_id=order_id)
+
+def createOrder(request,order_id):
+    order = Order.objects.get(pk=order_id)
+    order.state = 'SendRequest'
+    order.save()
+    return redirect('homepage')
+
+def deleteOrder(request, order_id,res_id):
+    order = Order.objects.get(pk=order_id)
+    order_list = Order_List.objects.filter(order_id=order.order_id)
+    for ol in order_list:
+        ol.delete()
+    order.delete()
+    return redirect('detailRestaurant', id=res_id)
+
+def deleteOrderList(request,id,order_id,list_no):
+    order_list = Order_List.objects.filter(pk=list_no)
+    order_list.delete()
+    return redirect('selectFood',id=id, order_id=order_id)
 
 
 # def searchRestaurant(request):
