@@ -6,14 +6,12 @@ from django.conf.global_settings import LOGIN_URL
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.contrib.auth.models import Group
-from classes.models import (Customer, Food, Order, Order_List, Owner,
-                            Restaurant, Type)
-from managements.forms import (AddFoodForm, AddRestaurantForm, CustomerForm,
-                               OwnerForm, UserForm)
+from django.db.models import Q
+
+from classes.models import Customer, Food, Order, Order_List, Owner, Restaurant, Type
+from managements.forms import AddFoodForm, AddRestaurantForm, CustomerForm, OwnerForm, UserForm
 
 
 def home(request):
@@ -23,11 +21,11 @@ def home(request):
 @login_required(login_url='login')
 def management(request):
     restaurant = Restaurant.objects.all()
-    restaurant_owner_id = Restaurant.objects.filter(owner_id=request.user.id) 
-    #เอา pk owner_id ในตาราง Restaurant มาเช็คกับ id ของ  user
+    restaurant_owner_id = Restaurant.objects.filter(owner_id=request.user.id)
+    # เอา pk owner_id ในตาราง Restaurant มาเช็คกับ id ของ  user
     return render(request, 'management.html', context={
         'restaurant': restaurant,
-        'restaurant_owner_id' : restaurant_owner_id
+        'restaurant_owner_id': restaurant_owner_id
     })
 
 
@@ -46,7 +44,7 @@ def homepage(request):
         list = []
         find = Restaurant.objects.filter(
             restaurant_name__icontains=search
-        )
+        )  # filter เอาค่า query ของ restaurant_name
         print(find)
         for check in find:
             print(check)
@@ -59,9 +57,9 @@ def homepage(request):
         print(list)
 
         return render(request, 'homepage.html', context={
-            'search': search,
-            'restaurant': restaurant,
-            'find': find,
+            # 'search': search,
+            # 'restaurant': restaurant,
+            # 'find': find,
             'check': list
         })
     return render(request, 'homepage.html', context={
@@ -70,9 +68,12 @@ def homepage(request):
 
 
 def detailRestaurant(request, id):
+    # รับค่า id ของ primary key ของร้านอาหาร เพื่อนำไปแสดงหาร้านอาหารนั้นๆ
     res = Restaurant.objects.get(pk=id)
+
+    # เช็คว่าค่าrestaurant_id = ค่าของ restaurant_id ที่เรารับมารึเปล่า
     food = Food.objects.filter(restaurant_id=res.restaurant_id)
-    owner = Owner.objects.get(pk=res.owner_id)
+
     foods = []
     for f in food:
         dict = {
@@ -87,8 +88,7 @@ def detailRestaurant(request, id):
     return render(request, 'detailRestaurant.html', context={
         'id': id,
         'foods': foods,
-        'restaurant': res,
-        'owner':owner
+        'restaurant': res
     })
 
 
@@ -116,6 +116,7 @@ def my_logout(request):
 
     return redirect(to='login')
 
+
 @login_required(login_url='login')
 def profile(request):
     username = request.user.username  # ดูว่า user คนไหนอยู่ในระบบ
@@ -130,10 +131,16 @@ def profile(request):
 
     return render(request, 'profile.html', context=context)
 
+
 @login_required(login_url='login')
 def editProfile(request):
+    # ดูว่า user คนไหนอยู่ในระบบ
     username = request.user.username
+
+    # เอา id มาเช็คว่าอยู่คณะไหน แล้วก็จะดึง query ของ id นั้นมาใช้
     customer = Customer.objects.get(user_id=request.user.id)
+
+    # เทียบ username ใน db กับ username ที่ล็อคอินว่าใช่อันเดียวกันมั้ย
     user = User.objects.get(username=username)
     if request.method == "POST":
         user.first_name = request.POST.get(
@@ -146,6 +153,7 @@ def editProfile(request):
 
     return render(request, 'editProfile.html')
 
+
 @login_required(login_url='login')
 def changePassword(request):
     context = {}
@@ -153,14 +161,19 @@ def changePassword(request):
         oldPassword = request.POST.get('oldPassword')
         newPassword = request.POST.get('newPassword')
         confirmPassword = request.POST.get('confirmPassword')
-        user_id = request.user.username  # เอา username ของ user ที่กำลัง login อยู้่
-        # เช็คว่าค่าที่รับมาตรงกันมั้ย
+
+        # เอา username ของ user ที่กำลัง login อยู่
+        user_id = request.user.username
+
+        # เช็คว่า user_id ตรงกับ username รึเปล่า password ตรงกัน oldpassword รึเปล่า
         check = authenticate(request, username=user_id, password=oldPassword)
 
         if check:
             if newPassword == confirmPassword:
+
                 # เอา object ของ username ตัวนั้นมา
                 changePassword = User.objects.get(username=user_id)
+
                 changePassword.set_password(newPassword)
                 changePassword.save()
                 return redirect('profile')
@@ -227,6 +240,7 @@ def registerCustomer(request):
         'customer': 'customer'
     })
 
+
 @login_required(login_url='login')
 def addRestaurant(request):
     add = Restaurant.objects.all()
@@ -239,7 +253,7 @@ def addRestaurant(request):
                 type_name=request.POST.get('type_name'))
             restaurant = form.save(commit=False)
             restaurant.type_type_id = typeRestaurant
-            restaurant.owner_id = user.id #create owner_id  if error. so no queryset date
+            restaurant.owner_id = user.id  # create owner_id  if error. so no queryset date
             # print(restaurant.picture_restaurant)
             restaurant.save()
             return redirect('management')
@@ -248,6 +262,7 @@ def addRestaurant(request):
     return render(request, 'addRestaurant.html', context={
         'form': form
     })
+
 
 @login_required(login_url='login')
 def editRestaurant(request, id):
@@ -267,11 +282,13 @@ def editRestaurant(request, id):
         'id': id
     })
 
+
 @login_required(login_url='login')
 def deleteRestaurant(request, id):
     restaurant = Restaurant.objects.get(restaurant_id=id)
     restaurant.delete()
     return redirect('management')
+
 
 @login_required(login_url='login')
 def managementFood(request, id):
@@ -280,6 +297,7 @@ def managementFood(request, id):
         'id': id,
         'food': food
     })
+
 
 @login_required(login_url='login')
 def addFood(request, res_id):
@@ -296,6 +314,7 @@ def addFood(request, res_id):
         'form': form,
         'id1': res_id
     })
+
 
 @login_required(login_url='login')
 def editFood(request, res_id, food_id):
@@ -314,9 +333,10 @@ def editFood(request, res_id, food_id):
         'id1': res_id
     })
 
+
 @login_required(login_url='login')
-def manageOrder(request,id):
-    order = Order.objects.filter(restaurant_id=id,state="SendRequest")
+def manageOrder(request, id):
+    order = Order.objects.filter(restaurant_id=id, state="SendRequest")
     order_list = Order_List.objects.all()
     list = []
     list2 = []
@@ -342,9 +362,11 @@ def manageOrder(request,id):
         'foods': list2
     })
 
+
 @login_required(login_url='login')
-def manageStateOrder(request,id):
-    order = Order.objects.filter(Q(state="Doing") | Q(state="Queuing") | Q(state="Done"),restaurant_id=id)
+def manageStateOrder(request, id):
+    order = Order.objects.filter(Q(state="Doing") | Q(
+        state="Queuing") | Q(state="Done"), restaurant_id=id)
     order_list = Order_List.objects.all()
     list = []
     list2 = []
@@ -353,7 +375,7 @@ def manageStateOrder(request,id):
             'id': od.order_id,
             'time': od.date_time,
             'total_price': od.total_price,
-            'state':od.state
+            'state': od.state
         }
         list.append(dict)
 
@@ -371,19 +393,22 @@ def manageStateOrder(request,id):
         'foods': list2
     })
 
+
 @login_required(login_url='login')
-def changeStateToDoing(request, order_id,res_id):
+def changeStateToDoing(request, order_id, res_id):
     order = Order.objects.get(pk=order_id)
     order.state = "Doing"
     order.save()
     return redirect('manageStateOrder', id=res_id)
 
+
 @login_required(login_url='login')
-def changeStateToDone(request, order_id,res_id):
+def changeStateToDone(request, order_id, res_id):
     order = Order.objects.get(pk=order_id)
     order.state = "Done"
     order.save()
     return redirect('manageStateOrder', id=res_id)
+
 
 @login_required(login_url='login')
 def deleteFood(request, res_id, food_id):
@@ -391,20 +416,23 @@ def deleteFood(request, res_id, food_id):
     food.delete()
     return redirect(to='managementFood', id=res_id)
 
+
 @login_required(login_url='login')
-def confirmOrder(request, order_id,res_id):
+def confirmOrder(request, order_id, res_id):
     order = Order.objects.get(pk=order_id)
     order.state = "Queuing"
     return redirect('manageOrder', id=res_id)
 
+
 @login_required(login_url='login')
-def cancelOrder(request, order_id,res_id):
+def cancelOrder(request, order_id, res_id):
     order = Order.objects.get(pk=order_id)
     order.delete()
     return redirect('manageOrder', id=res_id)
 
+
 @login_required(login_url='login')
-def selectFood(request, id,order_id):
+def selectFood(request, id, order_id):
     order = Order.objects.get(pk=order_id)
     order_list = Order_List.objects.filter(order_id=order_id)
     order_lists = []
@@ -414,7 +442,7 @@ def selectFood(request, id,order_id):
             'id': ol.list_no,
             'food_name': Food.objects.get(pk=ol.food_id).food_name,
             'unit': ol.unit,
-            'price':ol.price*ol.unit
+            'price': ol.price*ol.unit
         }
         total_price += ol.price*ol.unit
         order_lists.append(dict)
@@ -439,39 +467,46 @@ def selectFood(request, id,order_id):
         'id': id,
         'foods': foods,
         'restaurant': res,
-        'order':order,
-        'order_lists':order_lists
+        'order': order,
+        'order_lists': order_lists
     })
 
+
 @login_required(login_url='login')
-def addNewOrder_List(request,user_id,res_id,food_id):
+def addNewOrder_List(request, user_id, res_id, food_id):
     unit = request.GET.get("unit")
     foodAdd = Food.objects.get(pk=food_id)
-    order_list = Order_List(unit=unit,price=foodAdd.price,food_id=foodAdd.food_id)
+    order_list = Order_List(
+        unit=unit, price=foodAdd.price, food_id=foodAdd.food_id)
     order_list.save()
-    order = Order(total_price=order_list.price,customer_id=user_id,restaurant_id=res_id)
+    order = Order(total_price=order_list.price,
+                  customer_id=user_id, restaurant_id=res_id)
     order.save()
     order_list.order_id = order.order_id
     order_list.save()
-    return redirect('selectFood', id=res_id,order_id=order.order_id)
+    return redirect('selectFood', id=res_id, order_id=order.order_id)
+
 
 @login_required(login_url='login')
-def addOrder_List(request,user_id,res_id,food_id,order_id):
+def addOrder_List(request, user_id, res_id, food_id, order_id):
     unit = request.GET.get("unit")
     foodAdd = Food.objects.get(pk=food_id)
-    order_list = Order_List(unit=unit,price=foodAdd.price,food_id=foodAdd.food_id,order_id=order_id)
+    order_list = Order_List(unit=unit, price=foodAdd.price,
+                            food_id=foodAdd.food_id, order_id=order_id)
     order_list.save()
-    return redirect('selectFood', id=res_id,order_id=order_id)
+    return redirect('selectFood', id=res_id, order_id=order_id)
+
 
 @login_required(login_url='login')
-def createOrder(request,order_id):
+def createOrder(request, order_id):
     order = Order.objects.get(pk=order_id)
     order.state = 'SendRequest'
     order.save()
     return redirect('homepage')
 
+
 @login_required(login_url='login')
-def deleteOrder(request, order_id,res_id):
+def deleteOrder(request, order_id, res_id):
     order = Order.objects.get(pk=order_id)
     order_list = Order_List.objects.filter(order_id=order.order_id)
     for ol in order_list:
@@ -479,11 +514,12 @@ def deleteOrder(request, order_id,res_id):
     order.delete()
     return redirect('detailRestaurant', id=res_id)
 
+
 @login_required(login_url='login')
-def deleteOrderList(request,id,order_id,list_no):
+def deleteOrderList(request, id, order_id, list_no):
     order_list = Order_List.objects.filter(pk=list_no)
     order_list.delete()
-    return redirect('selectFood',id=id, order_id=order_id)
+    return redirect('selectFood', id=id, order_id=order_id)
 
 
 # def searchRestaurant(request):

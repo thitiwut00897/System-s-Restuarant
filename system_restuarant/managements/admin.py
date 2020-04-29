@@ -4,10 +4,6 @@ from django.contrib.auth.models import Permission
 
 admin.site.register(Permission)
 
+# Register your models here.
 admin.site.register(Restaurant)
 admin.site.register(Food)
-admin.site.register(Customer)
-admin.site.register(Order)
-admin.site.register(Order_List)
-admin.site.register(Owner)
-admin.site.register(Type)
