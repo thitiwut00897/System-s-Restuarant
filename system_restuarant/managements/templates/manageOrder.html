@@ -17,12 +17,12 @@
                     <th scope="row">{{forloop.counter}}</th>
                     <td>{{order.id}}</td>
                     <td>{{ order.time}}</td>
-                    <td><Button type="button" data-toggle="collapse" data-target="#demo{{order.id}}" class="btn btn-info" onclick=''>คลิ๊กแสดงรายละเอียด</button></td>
+                    <td><Button type="button" data-toggle="collapse" data-target="#demo{{order.id}}" class="btn btn-info" onclick=''>แสดงรายละเอียด</button></td>
                 </tr>
                 
                 <tr >
                 <td colspan="6" class="collapse" id="demo{{order.id}}">
-                    <div class="collapse" id="demo{{order.id}}"> 
+                    <div> 
                         {% for food in foods %}
                             {% if order.id == food.id %}
                                 อาหาร: {{food.food}} จำนวน: {{food.unit}} ราคา {{food.price}}<br>

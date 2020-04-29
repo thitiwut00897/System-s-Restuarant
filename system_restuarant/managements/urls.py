@@ -24,10 +24,12 @@ urlpatterns = [
     path('restaurant/food/<int:res_id>/delete/<int:food_id>/', views.deleteFood, name='deleteFood'),
     path('restaurant/food/<int:res_id>/edit/<int:food_id>/',views.editFood, name='editFood'),
 
-    path('manageOrder', views.manageOrder, name='manageOrder'),
-    path('manageStateOrder', views.manageStateOrder, name='manageStateOrder'),
-    path('Order/changeStateToDoing/<int:order_id>/',views.changeStateToDoing, name='changeStateToDoing'),
-    path('Order/changeStateToDone/<int:order_id>/',views.changeStateToDone, name='changeStateToDone'),
-    path('Order/confirmOrder/<int:order_id>/',views.confirmOrder, name='confirmOrder'),
-    path('Order/cancelOrder/<int:order_id>/', views.cancelOrder, name='cancelOrder')
-]
+    path('manageOrder/<int:id>/', views.manageOrder, name='manageOrder'),
+    path('manageStateOrder/<int:id>/', views.manageStateOrder, name='manageStateOrder'),
+    path('addNewOrder_list/<int:user_id>/<int:res_id>/<int:food_id>',views.addNewOrder_List,name='addNewOrder_List'),
+    path('addOrder_list/<int:user_id>/<int:res_id>/<int:food_id>/<int:order_id>',views.addOrder_List,name='addOrder_List'),
+    path('selectFood/<int:id>/<int:order_id>',views.selectFood,name='selectFood'),
+    path('Order/createOrder/<int:order_id>/',views.createOrder, name='createOrder'),
+    path('Order/deleteOrder/<int:order_id>/<res_id>',views.deleteOrder, name='deleteOrder'),
+    path('Order/deleteOrderList/<int:id>/<int:order_id>/<int:list_no>',views.deleteOrderList, name='deleteOrderList')
+    ]
