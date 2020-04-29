@@ -20,8 +20,8 @@
             </form>
             <div class="row">
                 {% for i in check %}
-                <div class="col-2 m-0" id="mySearch">
-                    <div class="card" style="width: 14rem;">
+                <div id="mySearch">
+                    <div class="card m-4" style="width: 14rem;">
                         {% if i.picture_restaurant %}
                         <center><img class="card-img-top w-75 h-75" src="{{ i.picture_restaurant.url }}"
                                 alt="Card image cap"></center>
@@ -43,7 +43,6 @@
                 </div>
                 {% endfor %}
             </div>
-        </div>
         </div>
     </body>
     <script>

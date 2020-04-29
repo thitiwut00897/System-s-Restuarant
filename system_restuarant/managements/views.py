@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.db.models import Q
 
 from classes.models import (Customer, Food, Order, Order_List, Owner,
                             Restaurant, Type)
@@ -113,7 +114,7 @@ def my_logout(request):
 
     return redirect(to='login')
 
-
+@login_required(login_url='login')
 def profile(request):
     username = request.user.username  # ดูว่า user คนไหนอยู่ในระบบ
     # เทียบ username ใน database กับ username ที่ล็อคอิน
@@ -127,7 +128,7 @@ def profile(request):
 
     return render(request, 'profile.html', context=context)
 
-
+@login_required(login_url='login')
 def editProfile(request):
     username = request.user.username
     customer = Customer.objects.get(user_id=request.user.id)
@@ -143,7 +144,7 @@ def editProfile(request):
 
     return render(request, 'editProfile.html')
 
-
+@login_required(login_url='login')
 def changePassword(request):
     context = {}
     if request.method == "POST":
@@ -220,7 +221,7 @@ def registerCustomer(request):
         'customer': 'customer'
     })
 
-
+@login_required(login_url='login')
 def addRestaurant(request):
     add = Restaurant.objects.all()
     user = request.user
@@ -242,7 +243,7 @@ def addRestaurant(request):
         'form': form
     })
 
-
+@login_required(login_url='login')
 def editRestaurant(request, id):
     restaurant = Restaurant.objects.get(restaurant_id=id)
     if request.method == 'POST':
@@ -260,13 +261,13 @@ def editRestaurant(request, id):
         'id': id
     })
 
-
+@login_required(login_url='login')
 def deleteRestaurant(request, id):
     restaurant = Restaurant.objects.get(restaurant_id=id)
     restaurant.delete()
     return redirect('management')
 
-
+@login_required(login_url='login')
 def managementFood(request, id):
     food = Food.objects.filter(restaurant_id=id)
     return render(request, 'managementFood.html', context={
@@ -274,7 +275,7 @@ def managementFood(request, id):
         'food': food
     })
 
-
+@login_required(login_url='login')
 def addFood(request, res_id):
     if request.method == 'POST':
         form = AddFoodForm(request.POST, request.FILES)
@@ -290,7 +291,7 @@ def addFood(request, res_id):
         'id1': res_id
     })
 
-
+@login_required(login_url='login')
 def editFood(request, res_id, food_id):
     food = Food.objects.get(food_id=food_id)
     if request.method == 'POST':
@@ -307,7 +308,7 @@ def editFood(request, res_id, food_id):
         'id1': res_id
     })
 
-
+@login_required(login_url='login')
 def manageOrder(request,id):
     order = Order.objects.filter(restaurant_id=id,state="SendRequest")
     order_list = Order_List.objects.all()
@@ -335,7 +336,7 @@ def manageOrder(request,id):
         'foods': list2
     })
 
-
+@login_required(login_url='login')
 def manageStateOrder(request,id):
     order = Order.objects.filter(Q(state="Doing") | Q(state="Queuing") | Q(state="Done"),restaurant_id=id)
     order_list = Order_List.objects.all()
@@ -364,37 +365,39 @@ def manageStateOrder(request,id):
         'foods': list2
     })
 
-
+@login_required(login_url='login')
 def changeStateToDoing(request, order_id,res_id):
     order = Order.objects.get(pk=order_id)
     order.state = "Doing"
     order.save()
     return redirect('manageStateOrder', id=res_id)
 
+@login_required(login_url='login')
 def changeStateToDone(request, order_id,res_id):
     order = Order.objects.get(pk=order_id)
     order.state = "Done"
     order.save()
     return redirect('manageStateOrder', id=res_id)
 
-
+@login_required(login_url='login')
 def deleteFood(request, res_id, food_id):
     food = Food.objects.get(food_id=food_id)
     food.delete()
     return redirect(to='managementFood', id=res_id)
 
-
+@login_required(login_url='login')
 def confirmOrder(request, order_id,res_id):
     order = Order.objects.get(pk=order_id)
     order.state = "Queuing"
     return redirect('manageOrder', id=res_id)
 
-
+@login_required(login_url='login')
 def cancelOrder(request, order_id,res_id):
     order = Order.objects.get(pk=order_id)
     order.delete()
     return redirect('manageOrder', id=res_id)
 
+@login_required(login_url='login')
 def selectFood(request, id,order_id):
     order = Order.objects.get(pk=order_id)
     order_list = Order_List.objects.filter(order_id=order_id)
@@ -434,6 +437,7 @@ def selectFood(request, id,order_id):
         'order_lists':order_lists
     })
 
+@login_required(login_url='login')
 def addNewOrder_List(request,user_id,res_id,food_id):
     unit = request.GET.get("unit")
     foodAdd = Food.objects.get(pk=food_id)
@@ -445,6 +449,7 @@ def addNewOrder_List(request,user_id,res_id,food_id):
     order_list.save()
     return redirect('selectFood', id=res_id,order_id=order.order_id)
 
+@login_required(login_url='login')
 def addOrder_List(request,user_id,res_id,food_id,order_id):
     unit = request.GET.get("unit")
     foodAdd = Food.objects.get(pk=food_id)
@@ -452,12 +457,14 @@ def addOrder_List(request,user_id,res_id,food_id,order_id):
     order_list.save()
     return redirect('selectFood', id=res_id,order_id=order_id)
 
+@login_required(login_url='login')
 def createOrder(request,order_id):
     order = Order.objects.get(pk=order_id)
     order.state = 'SendRequest'
     order.save()
     return redirect('homepage')
 
+@login_required(login_url='login')
 def deleteOrder(request, order_id,res_id):
     order = Order.objects.get(pk=order_id)
     order_list = Order_List.objects.filter(order_id=order.order_id)
@@ -466,6 +473,7 @@ def deleteOrder(request, order_id,res_id):
     order.delete()
     return redirect('detailRestaurant', id=res_id)
 
+@login_required(login_url='login')
 def deleteOrderList(request,id,order_id,list_no):
     order_list = Order_List.objects.filter(pk=list_no)
     order_list.delete()

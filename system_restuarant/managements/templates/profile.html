@@ -1,22 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="nm">
-<center>
-    <div class="card" style="width:500px">
+
+
+    <div class="card">
+    <center><div class="card-header">
+            โปรไฟล์
+        </div></center>
+        
         <div class="card-body">
-            <h4 class="card-title">โปรไฟล์</h4>
             <p class="card-text">
-                USERNAME: {{ user.username }} <br>
-                Name:{{ user.first_name }} 
-                {{ user.last_name }} <br>
-                Email: {{ user.email }} <br>
-                Faculty: {{ customer.faculty }}
+                ชื่อผู้ใช้งาน: {{ user.username }} <br>
+                ชื่อ: {{ user.first_name }}  <br>
+                นามสกุล: {{ user.last_name }} <br>
+                อีเมล: {{ user.email }} <br>
+                {% if user.owner %}
+                สถานะ: เจ้าของร้าน
+                {% elif user.customer %}
+                สถานะ: ลูกค้า
+                {% else %}
+                สถานะ: แอดมิน
+                {% endif %}
             </p>
             <a href="{% url 'editProfile'%}" class="card-link">แก้ไขโปรไฟล์</a>
             <a href="{% url 'changePassword'%}" class="card-link">เปลี่ยนรหัสผ่าน</a>
         </div>
     </div>
-</center>
+
 </div>    
 
 {% endblock %}
