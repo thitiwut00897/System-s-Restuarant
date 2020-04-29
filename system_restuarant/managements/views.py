@@ -6,12 +6,14 @@ from django.conf.global_settings import LOGIN_URL
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.db.models import Q
 
-from classes.models import Customer, Food, Order, Order_List, Owner,Restaurant, Type
-from managements.forms import AddFoodForm, AddRestaurantForm, CustomerForm,OwnerForm, UserForm
+from classes.models import (Customer, Food, Order, Order_List, Owner,
+                            Restaurant, Type)
+from managements.forms import (AddFoodForm, AddRestaurantForm, CustomerForm,
+                               OwnerForm, UserForm)
 
 
 def home(request):
@@ -70,6 +72,7 @@ def homepage(request):
 def detailRestaurant(request, id):
     res = Restaurant.objects.get(pk=id)
     food = Food.objects.filter(restaurant_id=res.restaurant_id)
+    owner = Owner.objects.get(pk=res.owner_id)
     foods = []
     for f in food:
         dict = {
@@ -84,7 +87,8 @@ def detailRestaurant(request, id):
     return render(request, 'detailRestaurant.html', context={
         'id': id,
         'foods': foods,
-        'restaurant': res
+        'restaurant': res,
+        'owner':owner
     })
 
 

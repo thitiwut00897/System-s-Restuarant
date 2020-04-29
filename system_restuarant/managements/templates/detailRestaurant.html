@@ -19,7 +19,7 @@
         <h6>Open-Time: {{ restaurant.open_time }}</h6>
         <h6>Close-Time: {{ restaurant.close_time }}</h6>
         <h6>ประเภทของร้าน: {{ restaurant.types }}</h6>
-        <h6>เจ้าของร้าน: {{ restaurant.owner }}</h6>
+        <h6>เจ้าของร้าน: {{ owner.user.first_name }}  {{ owner.user.last_name}}</h6>
         <div class="row-span mt-3">
             {% if user.is_authenticated %}
                 <a type="button" class="btn btn-info" href="{% url 'manageOrder' id=restaurant.restaurant_id%}">จัดการออเดอร์</a>
