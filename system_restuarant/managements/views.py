@@ -74,6 +74,9 @@ def detailRestaurant(request, id):
     # เช็คว่าค่าrestaurant_id = ค่าของ restaurant_id ที่เรารับมารึเปล่า
     food = Food.objects.filter(restaurant_id=res.restaurant_id)
 
+    # get ค่า owner มาแล้วส่งค่า
+    owner = Owner.objects.get(pk=res.owner_id)
+
     foods = []
     for f in food:
         dict = {
@@ -88,7 +91,8 @@ def detailRestaurant(request, id):
     return render(request, 'detailRestaurant.html', context={
         'id': id,
         'foods': foods,
-        'restaurant': res
+        'restaurant': res,
+        'owner': owner
     })
 
 
@@ -120,8 +124,10 @@ def my_logout(request):
 @login_required(login_url='login')
 def profile(request):
     username = request.user.username  # ดูว่า user คนไหนอยู่ในระบบ
+
     # เทียบ username ใน database กับ username ที่ล็อคอิน
     user = User.objects.get(username=username)
+
     # เอา id user มาเช็ค id ว่าอยู่คณะไหน
     customer = Customer.objects.get(user_id=request.user.id)
     context = {
