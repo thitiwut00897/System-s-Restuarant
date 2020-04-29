@@ -84,6 +84,21 @@ def detailRestaurant(request, id):
         'res_id': res_id
     })
 
+# def profile(request, id):
+#     user = User.objects.get(id=id)
+#     return render(request, 'profile.html', context={
+#         'user' : user
+#     })
+def profile(request):
+    return render(request, 'profile.html')
+
+def editProfile(request):
+    return render(request, 'editProfile.html')
+
+def changePassword(request):
+    return render(request, 'changePassword.html')
+
+
 
 def my_login(request):
     context = {}
