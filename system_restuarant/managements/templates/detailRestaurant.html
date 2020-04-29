@@ -1,34 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
-    <form method="POST" action="{% url 'detailRestaurant' id=id %}" enctype="multipart/form-data" >
+ 
 
 <div class="container-fluid">
     <div class="row mt-1">
         <div class="col-md">
                 <div class="m-3">
-                    {% if res_id.picture_restaurant %}
+                    {% if restaurant.picture_restaurant %}
                         <div class="mt-1">
-                            <center><img src="{{ res_id.picture_restaurant.url }}" width="200" height="150"></center>
+                            <center><img src="{{ restaurant.picture_restaurant.url }}" width="200" height="150"></center>
                         </div>
                     {% endif %}
                </div>
         </div>
     <div class="col-md"><br>
-        <h6>ชื่อร้านอาหาร: {{ res_id.restaurant_name }}</h6>
-        <h6>รหัสร้านอาหาร: {{ res_id.restaurant_id }}</h6>
-        <h6>Open-Time: {{ res_id.open_time }}</h6>
-        <h6>Close-Time: {{ res_id.close_time }}</h6>
-        <h6>ประเภทของร้าน: {{ res_id.types }}</h6>
-        <h6>เจ้าของร้าน: {{ res_id.owner }}</h6>
+        <h6>ชื่อร้านอาหาร: {{ restaurant.restaurant_name }}</h6>
+        <h6>รหัสร้านอาหาร: {{ restaurant.restaurant_id }}</h6>
+        <h6>Open-Time: {{ restaurant.open_time }}</h6>
+        <h6>Close-Time: {{ restaurant.close_time }}</h6>
+        <h6>ประเภทของร้าน: {{ restaurant.types }}</h6>
+        <h6>เจ้าของร้าน: {{ restaurant.owner }}</h6>
         <div class="row-span mt-3">
             {% if user.is_authenticated %}
-                <a type="button" class="btn btn-info" href="{% url 'manageOrder' %}">จัดการออเดอร์</a>
+                <a type="button" class="btn btn-info" href="{% url 'manageOrder' id=restaurant.restaurant_id%}">จัดการออเดอร์</a>
                 <a type="button" class="btn btn-info" >สถานะออเดอร์</a>
-            {% else  %}
+            {% endif %}  
             <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#food_name" aria-expanded="false" aria-controls="collapseExample" class="btn btn-info" href="{% url 'detailRestaurant' id=id %}">
                 แสดงรายการอาหาร
-            </button>
-            {% endif %}        
+            </button>      
         </div>
     </div>
 </div>
@@ -36,13 +35,32 @@
     <div class="ml-3">
         <table class="table mt-3">
             <tr>
-                <th>รูปอาหาร</th>
+                <th>รูปอาหาร </th>
                 <th>รายละเอียดรายการอาหาร</th>
+                <th>จำนวน </th>
+                <th>ราคาต่อหน่วย</th>
+                <th>เพิ่มลงตะกร้า </th>
+
             </tr> 
-            {% for food in food_id %}
-                <td scope="col">{{ food.picture_food }}</td>
+            {% for food in foods %}
+            <tr>
+                <td scope="col"><img src="{{ food.picture_food.url }}"></td>
                 <td scope="col">{{ food.food_name }}</td>
-                <td><a type="button" class="btn btn-outline-success">เลือกเมนู</a></td>
+                {% if user.is_authenticated %}
+                    {% if order %}
+                    
+                    <form method='GET' action='{% url "addOrder_List" user_id=user.id res_id=restaurant.restaurant_id food_id=food.food_id order_id=order.order_id %}'>
+                    {% else %}
+                        <form method='GET' action='{% url "addNewOrder_List" user_id=user.id res_id=restaurant.restaurant_id food_id=food.food_id  %}'>
+                    {% endif %}
+                {% endif %} 
+                <td scope="col"><input class="form-control" id="unit" name="unit" type='number'></td>
+                <td scope="col">{{food.price}}</td>
+                {% if user.is_authenticated %}
+                    <td><button class="btn btn-outline-success">เลือกเมนู</button></td>
+                    </form>
+                {% endif %}
+                </tr> 
             {% endfor %} 
         </table> 
     </div>
