@@ -8,17 +8,12 @@ class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,null=True)
     faculty = models.CharField(max_length=50)
 
-    def __str__(self):
-        return self.user
 
 
 class Owner(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE,null=True)
     picture_owner = models.ImageField(
         upload_to='uploads')
-
-    def __str__(self):
-        return self.user
 
 
 class StateChoices(Enum):
