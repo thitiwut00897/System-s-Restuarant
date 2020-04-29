@@ -204,6 +204,8 @@ def registerOwner(request):
             owner = owner_form.save()
             owner.user_id = user.id
             owner.save()
+            my_group = Group.objects.get(name='OwnerGroup') 
+            my_group.user_set.add(user)
             return redirect('login')
         else:
             print(user_form.errors, owner_form.errors)
@@ -229,6 +231,8 @@ def registerCustomer(request):
             customer = customer_form.save()
             customer.user_id = user.id
             customer.save()
+            my_group = Group.objects.get(name='CustomerGroup') 
+            my_group.user_set.add(user)
             return redirect('login')
         else:
             print(user_form.errors, customer_form.errors)

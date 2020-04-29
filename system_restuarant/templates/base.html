@@ -95,7 +95,11 @@
               </div>
           </div>
         <div style='z-index: 10;  position: absolute; right: 5%; display: inline-block; text-align: right'>
-          <a href="{% url 'registerOwner' %}">สมัครสมาชิก</a> / <a href="{% url 'login' %}">ล็อคอิน</a> 
+          <a href="#" class='dropdown-toggle' data-toggle="dropdown">สมัครสมาชิก</a> / <a href="{% url 'login' %}">ล็อคอิน</a> 
+          <div class="dropdown-menu">
+              <a class="dropdown-item" href="{% url 'registerCustomer' %}">สำหรับลูกค้า</a>
+              <a class="dropdown-item" href="{% url 'registerOwner' %}">สำหรับเจ้าของร้านอาหาร</a>
+          </div>
         <div>
         </div>
       </nav>
