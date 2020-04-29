@@ -20,14 +20,14 @@ class AddRestaurantForm(ModelForm):
         widgets = {
             'restaurant_name': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder' : 'ชื่อร้านอาหาร'
-                }),
+                'placeholder': 'ชื่อร้านอาหาร'
+            }),
             'open_time': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder' : '00:00'}),
+                'placeholder': '00:00'}),
             'close_time': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder' : '00:00'
+                'placeholder': '00:00'
             }),
             'picture_restaurant': forms.FileInput(attrs={'class': 'custom-file-input'})
         }
@@ -37,7 +37,6 @@ class AddRestaurantForm(ModelForm):
         #     if(price.isdigit() == false):
         #         msg = "กรุณากรอกตัวเลข"
         #         self.add_error('price', msg)
-
 
 
 class AddFoodForm(ModelForm):
@@ -52,10 +51,10 @@ class AddFoodForm(ModelForm):
         widgets = {
             'food_name': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder' : 'ชื่อร้านอาหาร'}),
+                'placeholder': 'ชื่อร้านอาหาร'}),
             'price': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder' : '00.0'}),
+                'placeholder': '00.0'}),
             'picture': forms.FileInput(attrs={'class': 'custom-file-input'})
         }
         # def clean(self):
@@ -69,8 +68,8 @@ class AddFoodForm(ModelForm):
 
 class UserForm(ModelForm):
     class Meta:
-        model = User 
-        fields  = ['username','password','first_name','last_name','email']
+        model = User
+        fields = ['username', 'password', 'first_name', 'last_name', 'email']
         labels = {
             'username': 'Username',
             'password': 'Password',
@@ -85,11 +84,12 @@ class UserForm(ModelForm):
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.TextInput(attrs={'class': 'form-control'}),
         }
-        
+
+
 class OwnerForm(ModelForm):
     class Meta:
         model = Owner
-        fields  = ['picture_owner']
+        fields = ['picture_owner']
         labels = {
             'picture_owner': 'รูปภาพ'
         }
@@ -97,10 +97,11 @@ class OwnerForm(ModelForm):
             'picture_owne': forms.FileInput(attrs={'class': 'custom-file-input'})
         }
 
+
 class CustomerForm(ModelForm):
     class Meta:
         model = Customer
-        fields  = ['faculty']
+        fields = ['faculty']
         labels = {
             'faculty': 'คณะ'
         }
