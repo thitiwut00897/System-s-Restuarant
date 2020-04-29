@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from classes.models import Food, Order, Order_List, Owner, Restaurant, Type
+from classes.models import Food, Order, Order_List, Owner, Restaurant, Type, Customer
 from managements.forms import (AddFoodForm, AddRestaurantForm, CustomerForm,
                                OwnerForm, UserForm)
 
@@ -55,11 +55,8 @@ def homepage(request):
             'restaurant': restaurant,
             'find': find,
             'check': list
-
         })
-
     return render(request, 'homepage.html', context={
-        # 'restaurant': restaurant,
         'check': list
     })
 
@@ -84,26 +81,10 @@ def detailRestaurant(request, id):
         'res_id': res_id
     })
 
-# def profile(request, id):
-#     user = User.objects.get(id=id)
-#     return render(request, 'profile.html', context={
-#         'user' : user
-#     })
-def profile(request):
-    return render(request, 'profile.html')
-
-def editProfile(request):
-    return render(request, 'editProfile.html')
-
-def changePassword(request):
-    return render(request, 'changePassword.html')
-
-
 
 def my_login(request):
     context = {}
     if request.method == 'POST':
-
         username = request.POST.get('username')
         password = request.POST.get('password')
 
@@ -122,7 +103,62 @@ def my_login(request):
 
 def my_logout(request):
     logout(request)
+
     return redirect(to='login')
+
+
+def profile(request):
+    username = request.user.username  # ดูว่า user คนไหนอยู่ในระบบ
+    # เทียบ username ใน database กับ username ที่ล็อคอิน
+    user = User.objects.get(username=username)
+    # เอา id user มาเช็ค id ว่าอยู่คณะไหน
+    customer = Customer.objects.get(user_id=request.user.id)
+    context = {
+        'customer': customer,
+        'user': user
+    }
+
+    return render(request, 'profile.html', context=context)
+
+
+def editProfile(request):
+    username = request.user.username
+    customer = Customer.objects.get(user_id=request.user.id)
+    user = User.objects.get(username=username)
+    if request.method == "POST":
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        customer.faculty = request.POST.get('faculty')
+        user.save()
+        customer.save()
+        return redirect('profile')
+
+    return render(request, 'editProfile.html')
+
+
+def changePassword(request):
+    context = {}
+    if request.method == "POST":
+        oldPassword = request.POST.get('oldPassword')
+        newPassword = request.POST.get('newPassword')
+        confirmPassword = request.POST.get('confirmPassword')
+        user_id = request.user.username
+        check = authenticate(request, username=user_id, password=oldPassword)
+
+        if check:
+            if newPassword == confirmPassword:
+                changePassword = User.objects.get(username=user_id)
+                changePassword.set_password(newPassword)
+                changePassword.save()
+                return redirect('profile')
+            else:
+                context['password'] = oldPassword
+                context['error'] = 'Password doesn''t match!'
+        else:
+            context['password'] = oldPassword
+            context['error'] = 'รหัสผ่านไม่ถูกต้อง!'
+
+    return render(request, 'changePassword.html', context=context)
 
 
 def registerOwner(request):

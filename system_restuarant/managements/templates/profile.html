@@ -5,7 +5,13 @@
     <div class="card" style="width:500px">
         <div class="card-body">
             <h4 class="card-title">โปรไฟล์</h4>
-            <p class="card-text">Some quick example text to build on the card title </p>
+            <p class="card-text">
+                USERNAME: {{ user.username }} <br>
+                Name:{{ user.first_name }} 
+                {{ user.last_name }} <br>
+                Email: {{ user.email }} <br>
+                Faculty: {{ customer.faculty }}
+            </p>
             <a href="{% url 'editProfile'%}" class="card-link">แก้ไขโปรไฟล์</a>
             <a href="{% url 'changePassword'%}" class="card-link">เปลี่ยนรหัสผ่าน</a>
         </div>
