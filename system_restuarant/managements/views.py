@@ -2,12 +2,15 @@ from builtins import object
 from gc import get_objects
 from urllib.request import Request
 
+from django.conf.global_settings import LOGIN_URL
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
-from classes.models import Food, Order, Order_List, Owner, Restaurant, Type, Customer
+from classes.models import (Customer, Food, Order, Order_List, Owner,
+                            Restaurant, Type)
 from managements.forms import (AddFoodForm, AddRestaurantForm, CustomerForm,
                                OwnerForm, UserForm)
 
@@ -16,6 +19,7 @@ def home(request):
     return render(request, 'homepage.html')
 
 
+@login_required(login_url='login')
 def management(request):
     restaurant = Restaurant.objects.all()
     return render(request, 'management.html', context={
@@ -126,7 +130,8 @@ def editProfile(request):
     customer = Customer.objects.get(user_id=request.user.id)
     user = User.objects.get(username=username)
     if request.method == "POST":
-        user.first_name = request.POST.get('first_name')
+        user.first_name = request.POST.get(
+            'first_name')  # update ชื่อของuser ที่ล็อคอิน
         user.last_name = request.POST.get('last_name')
         customer.faculty = request.POST.get('faculty')
         user.save()
@@ -142,11 +147,13 @@ def changePassword(request):
         oldPassword = request.POST.get('oldPassword')
         newPassword = request.POST.get('newPassword')
         confirmPassword = request.POST.get('confirmPassword')
-        user_id = request.user.username
+        user_id = request.user.username  # เอา username ของ user ที่กำลัง login อยู้่
+        # เช็คว่าค่าที่รับมาตรงกันมั้ย
         check = authenticate(request, username=user_id, password=oldPassword)
 
         if check:
             if newPassword == confirmPassword:
+                # เอา object ของ username ตัวนั้นมา
                 changePassword = User.objects.get(username=user_id)
                 changePassword.set_password(newPassword)
                 changePassword.save()
