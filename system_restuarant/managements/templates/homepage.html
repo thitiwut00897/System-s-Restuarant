@@ -11,7 +11,7 @@
                     <div class="col-8"></div>
                     <div class="col-3 ">
                         <input class="form-control" type="text" placeholder="ค้นหาร้านอาหาร" id="search" name="search"
-                            value="{{search}}"">
+                            value="{{search}}">
                     </div>
                     <div class=" col-1">
                         <button class="btn btn-outline-success" type="submit">Search</button>
@@ -19,11 +19,11 @@
                 </div>
             </form>
         </div>
-        <div class="container-fluid" id="mySearch">
+        <div class="container-fluid">
             <div class="row">
                 {% for i in check %}
-                <div class="col-2">
-                    <div class="card" style="width: 18rem;">
+                <div class="col-2 m-0" id="mySearch">
+                    <div class="card" style="width: 14rem;">
                         {% if i.picture_restaurant %}
                         <center><img class="card-img-top w-75 h-75" src="{{ i.picture_restaurant.url }}"
                                 alt="Card image cap"></center>
@@ -48,14 +48,13 @@
         </div>
         </div>
     </body>
-
     <script>
         $(document).ready(function () {
             $("#search").on("keyup", function () {
                 var value = $(this).val().toLowerCase();
                 $("#mySearch div").filter(function () {
-                    $(this).toggle($((this).text().toLowerCase().indexOf(value) > -1)
-    });
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
             });
         });
     </script>
