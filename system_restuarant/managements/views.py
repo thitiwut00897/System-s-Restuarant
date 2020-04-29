@@ -22,8 +22,11 @@ def home(request):
 @login_required(login_url='login')
 def management(request):
     restaurant = Restaurant.objects.all()
+    restaurant_owner_id = Restaurant.objects.filter(owner_id=request.user.id) 
+    #เอา pk owner_id ในตาราง Restaurant มาเช็คกับ id ของ  user
     return render(request, 'management.html', context={
-        'restaurant': restaurant
+        'restaurant': restaurant,
+        'restaurant_owner_id' : restaurant_owner_id
     })
 
 
@@ -219,6 +222,9 @@ def registerCustomer(request):
 
 
 def addRestaurant(request):
+    add = Restaurant.objects.all()
+    user = request.user
+
     if request.method == 'POST':
         form = AddRestaurantForm(request.POST, request.FILES)
         if form.is_valid():
@@ -226,6 +232,7 @@ def addRestaurant(request):
                 type_name=request.POST.get('type_name'))
             restaurant = form.save(commit=False)
             restaurant.type_type_id = typeRestaurant
+            restaurant.owner_id = user.id #create owner_id  if error. so no queryset date
             # print(restaurant.picture_restaurant)
             restaurant.save()
             return redirect('management')

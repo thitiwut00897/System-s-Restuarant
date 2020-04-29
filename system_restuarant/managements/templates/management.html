@@ -14,7 +14,7 @@
             </thead>
             <tbody>
                 <tr>
-                {% for i in restaurant %}
+                {% for i in restaurant_owner_id %}
                     <td><center>{% if i.picture_restaurant %} <img src="{{ i.picture_restaurant.url }}">{% endif %}</center></td>
                     <td><center>{{ i.restaurant_name }}</center></td>
                     <td><center>
