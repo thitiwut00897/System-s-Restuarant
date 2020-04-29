@@ -7,8 +7,7 @@ urlpatterns = [
     path('', views.homepage, name='homepage'),
     path('login', views.my_login, name='login'),
     path('logout', views.my_logout, name='logout'),
-     path('registerOwner',views.registerOwner,name='registerOwner'),
-    path('registerCustomer',views.registerCustomer,name='registerCustomer'),
+
     # menagement Restuarant&Menu
     path('restaurant/detailRestaurant/<int:id>/',
          views.detailRestaurant, name='detailRestaurant'),
@@ -27,9 +26,6 @@ urlpatterns = [
          views.editFood, name='editFood'),
 
     path('manageOrder', views.manageOrder, name='manageOrder'),
-    path('manageStateOrder', views.manageStateOrder, name='manageStateOrder'),
-    path('Order/changeStateToDoing/<int:order_id>/',views.changeStateToDoing, name='changeStateToDoing'),
-    path('Order/changeStateToDone/<int:order_id>/',views.changeStateToDone, name='changeStateToDone'),
     path('Order/confirmOrder/<int:order_id>/',
          views.confirmOrder, name='confirmOrder'),
     path('Order/cancelOrder/<int:order_id>/',
