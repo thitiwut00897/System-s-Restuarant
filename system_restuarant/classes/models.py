@@ -49,7 +49,7 @@ class Restaurant(models.Model):
         Type, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return self.restaurant_name
+        return self.restaurant_name if self.restaurant_name else ''
 
 class Order(models.Model):
     order_id = models.AutoField(primary_key=True)

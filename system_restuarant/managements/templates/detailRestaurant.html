@@ -23,7 +23,7 @@
         <div class="row-span mt-3">
             {% if user.is_authenticated %}
                 <a type="button" class="btn btn-info" href="{% url 'manageOrder' id=restaurant.restaurant_id%}">จัดการออเดอร์</a>
-                <a type="button" class="btn btn-info" >สถานะออเดอร์</a>
+                <a type="button" class="btn btn-info" href="{% url 'manageStateOrder' id=restaurant.restaurant_id%}">สถานะออเดอร์</a>
             {% endif %}  
             <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#food_name" aria-expanded="false" aria-controls="collapseExample" class="btn btn-info" href="{% url 'detailRestaurant' id=id %}">
                 แสดงรายการอาหาร
@@ -47,12 +47,11 @@
                 <td scope="col"><img src="{{ food.picture_food.url }}"></td>
                 <td scope="col">{{ food.food_name }}</td>
                 {% if user.is_authenticated %}
-                    {% if order %}
-                    
-                    <form method='GET' action='{% url "addOrder_List" user_id=user.id res_id=restaurant.restaurant_id food_id=food.food_id order_id=order.order_id %}'>
-                    {% else %}
-                        <form method='GET' action='{% url "addNewOrder_List" user_id=user.id res_id=restaurant.restaurant_id food_id=food.food_id  %}'>
-                    {% endif %}
+                        {% if order %}
+                        <form method='GET' action='{% url "addOrder_List" user_id=user.id res_id=restaurant.restaurant_id food_id=food.food_id order_id=order.order_id %}'>
+                        {% else %}
+                            <form method='GET' action='{% url "addNewOrder_List" user_id=user.id res_id=restaurant.restaurant_id food_id=food.food_id  %}'>
+                        {% endif %}
                 {% endif %} 
                 <td scope="col"><input class="form-control" id="unit" name="unit" type='number'></td>
                 <td scope="col">{{food.price}}</td>

@@ -10,10 +10,8 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.db.models import Q
 
-from classes.models import (Customer, Food, Order, Order_List, Owner,
-                            Restaurant, Type)
-from managements.forms import (AddFoodForm, AddRestaurantForm, CustomerForm,
-                               OwnerForm, UserForm)
+from classes.models import Customer, Food, Order, Order_List, Owner,Restaurant, Type
+from managements.forms import AddFoodForm, AddRestaurantForm, CustomerForm,OwnerForm, UserForm
 
 
 def home(request):

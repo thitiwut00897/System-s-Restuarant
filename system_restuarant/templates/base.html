@@ -61,11 +61,10 @@
               <a class="navbar-brand" href="{% url 'homepage' %}"> KMITL Restaurant</a>
               <div class="dropdown-menu">
                 <a class="dropdown-item" href="{% url 'management' %}">จัดการร้านอาหาร</a>
-                <a class="dropdown-item" href="{% url 'login' %}">จัดการรายการอาหาร</a>
               </div>
           </div>
         <div style='z-index: 10;  position: absolute; right: 5%; display: inline-block; text-align: right'>
-          <a href="">โปรไฟล์</a> / <a href="{% url 'logout' %}">ออกจากระบบ</a>
+          <a href="{% url 'profile' %}">โปรไฟล์</a> / <a href="{% url 'logout' %}">ออกจากระบบ</a>
           <img src="{% static 'base_img/maket.png' %}" class="img_bar" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
           <div class="dropdown-menu dropdown-menu-right float-right">
                 {% if order and order_lists %}
