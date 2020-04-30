@@ -20,7 +20,7 @@ def home(request):
 
 
 @login_required(login_url='login')
-@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists())
+@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists() | u.is_superuser)
 def management(request):
     restaurant = Restaurant.objects.all()
     restaurant_owner_id = Restaurant.objects.filter(owner_id=request.user.id)
@@ -247,7 +247,7 @@ def registerCustomer(request):
 
 
 @login_required(login_url='login')
-@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists())
+@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists() | u.is_superuser)
 def addRestaurant(request):
     add = Restaurant.objects.all()
     user = request.user
@@ -271,7 +271,7 @@ def addRestaurant(request):
 
 
 @login_required(login_url='login')
-@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists())
+@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists() | u.is_superuser)
 def editRestaurant(request, id):
     restaurant = Restaurant.objects.get(restaurant_id=id)
     if request.method == 'POST':
@@ -291,7 +291,7 @@ def editRestaurant(request, id):
 
 
 @login_required(login_url='login')
-@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists())
+@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists() | u.is_superuser)
 def deleteRestaurant(request, id):
     restaurant = Restaurant.objects.get(restaurant_id=id)
     restaurant.delete()
@@ -299,7 +299,7 @@ def deleteRestaurant(request, id):
 
 
 @login_required(login_url='login')
-@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists())
+@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists() | u.is_superuser)
 def managementFood(request, id):
     food = Food.objects.filter(restaurant_id=id)
     return render(request, 'managementFood.html', context={
@@ -309,7 +309,7 @@ def managementFood(request, id):
 
 
 @login_required(login_url='login')
-@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists())
+@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists() | u.is_superuser)
 def addFood(request, res_id):
     if request.method == 'POST':
         form = AddFoodForm(request.POST, request.FILES)
@@ -327,7 +327,7 @@ def addFood(request, res_id):
 
 
 @login_required(login_url='login')
-@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists())
+@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists() | u.is_superuser)
 def editFood(request, res_id, food_id):
     food = Food.objects.get(food_id=food_id)
     if request.method == 'POST':
@@ -346,7 +346,7 @@ def editFood(request, res_id, food_id):
 
 
 @login_required(login_url='login')
-@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists())
+@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists() | u.is_superuser)
 def manageOrder(request, id):
     order = Order.objects.filter(restaurant_id=id, state="SendRequest")
     order_list = Order_List.objects.all()
@@ -377,7 +377,7 @@ def manageOrder(request, id):
 
 
 @login_required(login_url='login')
-@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists())
+@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists() | u.is_superuser)
 def manageStateOrder(request, id):
     order = Order.objects.filter(Q(state="Doing") | Q(
         state="Queuing") | Q(state="Done"), restaurant_id=id)
@@ -410,7 +410,7 @@ def manageStateOrder(request, id):
 
 
 @login_required(login_url='login')
-@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists())
+@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists() | u.is_superuser)
 def changeStateToDoing(request, order_id, res_id):
     order = Order.objects.get(pk=order_id)
     order.state = "Doing"
@@ -419,7 +419,7 @@ def changeStateToDoing(request, order_id, res_id):
 
 
 @login_required(login_url='login')
-@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists())
+@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists() | u.is_superuser)
 def changeStateToDone(request, order_id, res_id):
     order = Order.objects.get(pk=order_id)
     order.state = "Done"
@@ -428,7 +428,7 @@ def changeStateToDone(request, order_id, res_id):
 
 
 @login_required(login_url='login')
-@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists())
+@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists() | u.is_superuser)
 def deleteFood(request, res_id, food_id):
     food = Food.objects.get(food_id=food_id)
     food.delete()
@@ -436,7 +436,7 @@ def deleteFood(request, res_id, food_id):
 
 
 @login_required(login_url='login')
-@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists())
+@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists() | u.is_superuser)
 def confirmOrder(request, order_id, res_id):
     order = Order.objects.get(pk=order_id)
     order.state = "Queuing"
@@ -445,7 +445,7 @@ def confirmOrder(request, order_id, res_id):
 
 
 @login_required(login_url='login')
-@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists())
+@user_passes_test(lambda u: u.groups.filter(name='OwnerGroup').exists() | u.is_superuser)
 def cancelOrder(request, order_id, res_id):
     order = Order.objects.get(pk=order_id)
     order.delete()
@@ -540,6 +540,7 @@ def deleteOrderList(request, id, order_id, list_no):
     order_list.delete()
     return redirect('selectFood', id=id, order_id=order_id)
 
+@login_required(login_url='login')
 def stateOrder(request,user_id):
     order = Order.objects.filter(user_id=user_id,state__isnull=False)
     list = []
