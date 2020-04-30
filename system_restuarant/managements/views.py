@@ -485,7 +485,7 @@ def addNewOrder_List(request,user_id,res_id,food_id):
     foodAdd = Food.objects.get(pk=food_id)
     order_list = Order_List(unit=unit,price=foodAdd.price,food_id=foodAdd.food_id)
     order_list.save()
-    order = Order(total_price=order_list.price,customer_id=user_id,restaurant_id=res_id)
+    order = Order(total_price=order_list.price,user_id=user_id,restaurant_id=res_id)
     order.save()
     order_list.order_id = order.order_id
     order_list.save()

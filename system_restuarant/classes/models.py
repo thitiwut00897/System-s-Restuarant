@@ -54,8 +54,8 @@ class Order(models.Model):
     date_time = models.DateTimeField(auto_now_add=True)
     restaurant = models.ForeignKey(
         Restaurant, on_delete=models.CASCADE,null=True)
-    customer = models.ForeignKey(
-        Customer, on_delete=models.CASCADE,null=True)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE,null=True)
 
 class Food(models.Model):
     food_id = models.AutoField(primary_key=True)
