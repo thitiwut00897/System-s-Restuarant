@@ -9,9 +9,10 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.db.models import Q
-
+from django.contrib.auth.models import Group
 from classes.models import Customer, Food, Order, Order_List, Owner, Restaurant, Type
 from managements.forms import AddFoodForm, AddRestaurantForm, CustomerForm, OwnerForm, UserForm
+from django.contrib.auth.decorators import user_passes_test
 
 
 def home(request):
@@ -128,10 +129,7 @@ def profile(request):
     # เทียบ username ใน database กับ username ที่ล็อคอิน
     user = User.objects.get(username=username)
 
-    # เอา id user มาเช็ค id ว่าอยู่คณะไหน
-    customer = Customer.objects.get(user_id=request.user.id)
     context = {
-        'customer': customer,
         'user': user
     }
 

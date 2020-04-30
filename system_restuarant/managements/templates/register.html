@@ -6,7 +6,12 @@
         <h2>สมัครสมาชิก</h2>
     </div>
     <div class="card-body">
-        <form method="POST" action="{% url 'registerOwner' %}" enctype="multipart/form-data">
+    {% if owner %}
+    <form method="POST" action="{% url 'registerOwner' %}" enctype="multipart/form-data">
+    {% elif customer %}
+    <form method="POST" action="{% url 'registerCustomer' %}" enctype="multipart/form-data">
+    {% endif %}
+        
             {% csrf_token %}
             {% if owner %}
                 {{ user_form.as_p }}
