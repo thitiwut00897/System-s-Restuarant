@@ -35,5 +35,6 @@ urlpatterns = [
     path('selectFood/<int:id>/<int:order_id>',views.selectFood,name='selectFood'),
     path('Order/createOrder/<int:order_id>/',views.createOrder, name='createOrder'),
     path('Order/deleteOrder/<int:order_id>/<res_id>',views.deleteOrder, name='deleteOrder'),
-    path('Order/deleteOrderList/<int:id>/<int:order_id>/<int:list_no>',views.deleteOrderList, name='deleteOrderList')
+    path('Order/deleteOrderList/<int:id>/<int:order_id>/<int:list_no>',views.deleteOrderList, name='deleteOrderList'),
+    path('Order/StateOrder/<int:user_id>',views.stateOrder,name='stateOrder')
     ]

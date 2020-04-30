@@ -61,6 +61,7 @@
               <a class="navbar-brand" href="{% url 'homepage' %}"> KMITL Restaurant</a>
               <div class="dropdown-menu">
                 <a class="dropdown-item" href="{% url 'management' %}">จัดการร้านอาหาร</a>
+                <a class="dropdown-item" href="{% url 'stateOrder' user_id=user.id %}">ออเดอร์ของฉัน</a>
               </div>
           </div>
         <div style='z-index: 10;  position: absolute; right: 5%; display: inline-block; text-align: right'>

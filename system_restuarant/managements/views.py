@@ -526,6 +526,21 @@ def deleteOrderList(request, id, order_id, list_no):
     order_list.delete()
     return redirect('selectFood', id=id, order_id=order_id)
 
+def stateOrder(request,user_id):
+    order = Order.objects.filter(user_id=user_id,state__isnull=False)
+    list = []
+    for od in order:
+        dict = {
+            'id': od.order_id,
+            'time': od.date_time,
+            'total_price': od.total_price,
+            'state': od.state,
+            'res': Restaurant.objects.get(pk=od.restaurant_id).restaurant_name
+        }
+        list.append(dict)
+    return render(request,'stateOrder.html',context={
+        "order":list
+    })
 
 # def searchRestaurant(request):
 #     search = request.POST.get('search')
