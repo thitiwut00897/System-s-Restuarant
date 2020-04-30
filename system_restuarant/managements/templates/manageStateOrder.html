@@ -31,9 +31,9 @@
                     </div> 
                     <div>
                     สถานะปัจจุบัน: {% if order.state == "Queuing" %}รอคิว{% elif order.state == "Doing" %}กำลังทำ {% else %} เสร็จแล้ว {% endif %}
-                    <br><a class="btn btn-info" href="{% url 'changeStateToDoing' order_id=order.id%}">เปลื่ยนสถานะเป็นกำลังทำ</a>
-                    <a class="btn btn-info" href="{% url 'changeStateToDone' order_id=order.id%}">เปลื่ยนสถานเป็นทำเสร็จแล้ว</a>
-                    <a class="btn btn-danger" href="{% url 'cancelOrder' order_id=order.id%}">ยกเลิกออเดอร์</a>
+                    <br><a class="btn btn-info" href="{% url 'changeStateToDoing' order_id=order.id res_id=order.res%}">เปลื่ยนสถานะเป็นกำลังทำ</a>
+                    <a class="btn btn-info" href="{% url 'changeStateToDone' order_id=order.id res_id=order.res%}">เปลื่ยนสถานเป็นทำเสร็จแล้ว</a>
+                    <a class="btn btn-danger" href="{% url 'cancelOrder' order_id=order.id res_id=order.res%}">ยกเลิกออเดอร์</a>
                     </div>
                 </td>
                 </tr>

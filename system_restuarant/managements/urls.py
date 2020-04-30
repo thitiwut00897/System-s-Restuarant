@@ -23,6 +23,8 @@ urlpatterns = [
     path('restaurant/food/<int:res_id>/add/', views.addFood, name='addFood'),
     path('restaurant/food/<int:res_id>/delete/<int:food_id>/', views.deleteFood, name='deleteFood'),
     path('restaurant/food/<int:res_id>/edit/<int:food_id>/',views.editFood, name='editFood'),
+    path('Order/confirmOrder/<int:order_id>/<int:res_id>',views.confirmOrder, name='confirmOrder'),
+    path('Order/cancelOrder/<int:order_id>/<int:res_id>',views.cancelOrder, name='cancelOrder'),
 
     path('manageOrder/<int:id>/', views.manageOrder, name='manageOrder'),
     path('manageStateOrder/<int:id>/', views.manageStateOrder, name='manageStateOrder'),

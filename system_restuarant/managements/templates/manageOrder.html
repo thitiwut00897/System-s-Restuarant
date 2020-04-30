@@ -30,8 +30,8 @@
                         {% endfor %}
                     </div> 
                     <div>
-                    <a class="btn btn-success" href="{% url 'confirmOrder' order_id=order.id%}">รับออเดอร์</a>
-                    <a class="btn btn-danger" href="{% url 'cancelOrder' order_id=order.id%}">ยกเลิกออเดอร์</a>
+                    <a class="btn btn-success" href="{% url 'confirmOrder' order_id=order.id res_id=order.res%}">รับออเดอร์</a>
+                    <a class="btn btn-danger" href="{% url 'cancelOrder' order_id=order.id res_id=order.res%}">ยกเลิกออเดอร์</a>
                     </div>
                 </td>
                 </tr>
