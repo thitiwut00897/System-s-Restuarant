@@ -427,6 +427,7 @@ def deleteFood(request, res_id, food_id):
 def confirmOrder(request, order_id, res_id):
     order = Order.objects.get(pk=order_id)
     order.state = "Queuing"
+    order.save()
     return redirect('manageOrder', id=res_id)
 
 
