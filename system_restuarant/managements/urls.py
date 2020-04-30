@@ -25,6 +25,8 @@ urlpatterns = [
     path('restaurant/food/<int:res_id>/edit/<int:food_id>/',views.editFood, name='editFood'),
     path('Order/confirmOrder/<int:order_id>/<int:res_id>',views.confirmOrder, name='confirmOrder'),
     path('Order/cancelOrder/<int:order_id>/<int:res_id>',views.cancelOrder, name='cancelOrder'),
+    path('Order/changeStateToDoing/<int:order_id>/<int:res_id>',views.changeStateToDoing, name='changeStateToDoing'),
+    path('Order/changeStateToDone/<int:order_id>/<int:res_id>',views.changeStateToDone, name='changeStateToDone'),
 
     path('manageOrder/<int:id>/', views.manageOrder, name='manageOrder'),
     path('manageStateOrder/<int:id>/', views.manageStateOrder, name='manageStateOrder'),
